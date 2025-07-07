@@ -5,10 +5,11 @@ reviewers:
 - thockin
 - msau42
 title: Node-specific Volume Limits
-content_template: templates/concept
+content_type: concept
+weight: 90
 ---
 
-{{% capture overview %}}
+<!-- overview -->
 
 This page describes the maximum number of volumes that can be attached
 to a Node for various cloud providers.
@@ -18,9 +19,9 @@ how many volumes can be attached to a Node. It is important for Kubernetes to
 respect those limits. Otherwise, Pods scheduled on a Node could get stuck
 waiting for volumes to attach.
 
-{{% /capture %}}
 
-{{% capture body %}}
+
+<!-- body -->
 
 ## Kubernetes default limits
 
@@ -38,6 +39,8 @@ that can be attached to a Node:
 
 You can change these limits by setting the value of the
 `KUBE_MAX_PD_VOLS` environment variable, and then starting the scheduler.
+CSI drivers might have a different procedure, see their documentation
+on how to customize their limits.
 
 Use caution if you set a limit that is higher than the default limit. Consult
 the cloud provider's documentation to make sure that Nodes can actually support
@@ -47,10 +50,7 @@ The limit applies to the entire cluster, so it affects all Nodes.
 
 ## Dynamic volume limits
 
-{{< feature-state state="beta" for_k8s_version="v1.12" >}}
-
-Kubernetes 1.11 introduced support for dynamic volume limits based on Node type as an Alpha feature.
-In Kubernetes 1.12 this feature is graduating to Beta and will be enabled by default.
+{{< feature-state state="stable" for_k8s_version="v1.17" >}}
 
 Dynamic volume limits are supported for following volume types.
 
@@ -59,14 +59,12 @@ Dynamic volume limits are supported for following volume types.
 - Azure Disk
 - CSI
 
-
-When the dynamic volume limits feature is enabled, Kubernetes automatically
-determines the Node type and enforces the appropriate number of attachable
-volumes for the node. For example:
+For volumes managed by in-tree volume plugins, Kubernetes automatically determines the Node
+type and enforces the appropriate maximum number of volumes for the node. For example:
 
 * On
 <a href="https://cloud.google.com/compute/">Google Compute Engine</a>,
-up to 128 volumes can be attached to a node, [depending on the node
+up to 127 volumes can be attached to a node, [depending on the node
 type](https://cloud.google.com/compute/docs/disks/#pdnumberlimits).
 
 * For Amazon EBS disks on M5,C5,R5,T3 and Z1D instance types, Kubernetes allows only 25
@@ -76,7 +74,38 @@ Kubernetes allows 39 volumes to be attached to a Node.
 
 * On Azure, up to 64 disks can be attached to a node, depending on the node type. For more details, refer to [Sizes for virtual machines in Azure](https://docs.microsoft.com/en-us/azure/virtual-machines/windows/sizes).
 
-* For CSI, any driver that advertises volume attach limits via CSI specs will have those limits available as the Node's allocatable property
-  and the Scheduler will not schedule Pods with volumes on any Node that is already at its capacity. Refer to the [CSI specs](https://github.com/container-storage-interface/spec/blob/master/spec.md#nodegetinfo) for more details.
+* If a CSI storage driver advertises a maximum number of volumes for a Node (using `NodeGetInfo`), the {{< glossary_tooltip text="kube-scheduler" term_id="kube-scheduler" >}} honors that limit.
+Refer to the [CSI specifications](https://github.com/container-storage-interface/spec/blob/master/spec.md#nodegetinfo) for details.
 
-{{% /capture %}}
+* For volumes managed by in-tree plugins that have been migrated to a CSI driver, the maximum number of volumes will be the one reported by the CSI driver.
+
+### Mutable CSI Node Allocatable Count
+
+{{< feature-state state="alpha" for_k8s_version="v1.33" >}}
+
+CSI drivers can dynamically adjust the maximum number of volumes that can be attached to a Node at runtime. This enhances scheduling accuracy and reduces pod scheduling failures due to changes in resource availability.
+
+This is an alpha feature and is disabled by default.
+
+To use this feature, you must enable the `MutableCSINodeAllocatableCount` feature gate on the following components:
+
+- `kube-apiserver`
+- `kubelet`
+
+#### Periodic Updates
+
+When enabled, CSI drivers can request periodic updates to their volume limits by setting the `nodeAllocatableUpdatePeriodSeconds` field in the `CSIDriver` specification. For example:
+
+```yaml
+apiVersion: storage.k8s.io/v1
+kind: CSIDriver
+metadata:
+  name: hostpath.csi.k8s.io
+spec:
+  nodeAllocatableUpdatePeriodSeconds: 60
+```
+
+Kubelet will periodically call the corresponding CSI driver’s `NodeGetInfo` endpoint to refresh the maximum number of attachable volumes, using the interval specified in `nodeAllocatableUpdatePeriodSeconds`. The minimum allowed value for this field is 10 seconds.
+
+Additionally, if a volume attachment operation fails with a `ResourceExhausted` error (gRPC code 8), Kubernetes triggers an immediate update to the allocatable volume count for that Node.
+

@@ -1,9 +1,10 @@
 ---
 title: 'Kubernetes v1.14 delivers production-level support for Windows nodes and Windows containers'
 date: 2019-04-01
+author: >
+  Michael Michael (VMware),
+  Patrick Lang (Microsoft)
 ---
-
-**Authors:** Michael Michael (VMware), Patrick Lang (Microsoft)
 
 The first release of Kubernetes in 2019 brings a highly anticipated feature -  production-level support for Windows workloads. Up until now Windows node support in Kubernetes has been in beta, allowing many users to experiment and see the value of Kubernetes for Windows containers. While in beta, developers in the Kubernetes community and Windows Server team worked together to improve the container runtime, build a continuous testing process, and complete features needed for a good user experience. Kubernetes now officially supports adding Windows nodes as worker nodes and scheduling Windows containers, enabling a vast ecosystem of Windows applications to leverage the power of our platform.
 
@@ -57,7 +58,7 @@ As a community, our work is not complete. As already mentioned , we still have a
 We welcome you to get involved and join our community to share feedback and deployment stories, and contribute to code, docs, and improvements of any kind.
 
 - Read our getting started and contributor guides, which include links to the community meetings and past recordings, at https://github.com/kubernetes/community/tree/master/sig-windows
-- Explore our documentation at https://kubernetes.io/docs/setup/windows
+- Explore our documentation at https://kubernetes.io/docs/setup/production-environment/windows/
 - Join us on [Slack](https://kubernetes.slack.com/messages/sig-windows) or the [Kubernetes Community Forums](https://discuss.kubernetes.io/c/general-discussions/windows) to chat about Windows containers on Kubernetes.
 
 Thank you and feel free to reach us individually if you have any questions.

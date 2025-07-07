@@ -1,9 +1,11 @@
 ---
 title: Update on Volume Snapshot Alpha for Kubernetes
 date: 2019-01-17
+author: >
+  DJing Xu (Google),
+  Xing Yang (Huawei),
+  Saad Ali (Google)
 ---
-
-**Authors:** Jing Xu (Google), Xing Yang (Huawei), Saad Ali (Google)
 
 Volume snapshotting support was introduced in Kubernetes v1.12 as an alpha feature. In Kubernetes v1.13, it remains an alpha feature, but a few enhancements were added and some breaking changes were made. This post summarizes the changes.
 
@@ -132,7 +134,7 @@ If a user deletes a `VolumeSnapshot` API object in active use by a PVC, the `Vol
 
 ## Which volume plugins support Kubernetes Snapshots?
 
-Snapshots are only supported for CSI drivers (not for in-tree or Flexvolume). To use the Kubernetes snapshots feature, ensure that a CSI Driver that implements snapshots is deployed on your cluster.
+Snapshots are only supported for CSI drivers (not for in-tree or FlexVolume). To use the Kubernetes snapshots feature, ensure that a CSI Driver that implements snapshots is deployed on your cluster.
 
 As of the publishing of this blog post, the following CSI drivers support snapshots:
 
@@ -141,13 +143,13 @@ As of the publishing of this blog post, the following CSI drivers support snapsh
 - [Ceph RBD CSI Driver](https://github.com/ceph/ceph-csi/tree/master/pkg/rbd)
 - [Portworx CSI Driver](https://github.com/libopenstorage/openstorage/tree/master/csi)
 - [GlusterFS CSI Driver](https://github.com/gluster/gluster-csi-driver)
-- [Digital Ocean CSI Driver](https://github.com/digitalocean/csi-digitalocean)
+- [DigitalOcean CSI Driver](https://github.com/digitalocean/csi-digitalocean)
 - [Ember CSI Driver](https://github.com/embercsi/ember-csi)
 - [Cinder CSI Driver](https://github.com/kubernetes/cloud-provider-openstack/tree/master/pkg/csi/cinder)
 - [Datera CSI Driver](https://github.com/Datera/datera-csi)
 - [NexentaStor CSI Driver](https://github.com/Nexenta/nexentastor-csi-driver)
 
-Snapshot support for other [drivers](https://kubernetes-csi.github.io/docs/Drivers.html) is pending, and should be available soon. Read the “Container Storage Interface (CSI) for Kubernetes GA” blog post to learn more about CSI and how to deploy CSI drivers.
+Snapshot support for other [drivers](https://kubernetes-csi.github.io/docs/drivers.html) is pending, and should be available soon. Read the “Container Storage Interface (CSI) for Kubernetes GA” blog post to learn more about CSI and how to deploy CSI drivers.
 
 ## What’s next?
 

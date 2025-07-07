@@ -3,8 +3,9 @@ title: " Steering an Automation Platform at Wercker with Kubernetes "
 date: 2016-07-15
 slug: automation-platform-at-wercker-with-kubernetes
 url: /blog/2016/07/Automation-Platform-At-Wercker-With-Kubernetes
+author: >
+  Andy Smith (Wercker)
 ---
-_Editor’s note: today’s guest post is by Andy Smith, the CTO of Wercker, sharing how Kubernetes helps them save time and speed up development. &nbsp;_  
 
 At [Wercker](http://wercker.com/) we run millions of containers that execute our users’ CI/CD jobs. The vast majority of them are ephemeral and only last as long as builds, tests and deploys take to run, the rest are ephemeral, too -- aren't we all --, but tend to last a bit longer and run our infrastructure. As we are running many containers across many nodes, we were in need of a highly scalable scheduler that would make our lives easier, and as such, decided to implement Kubernetes.  
 
@@ -42,7 +43,7 @@ Our heaviest use of the Kubernetes API is definitely our system of creating dyna
 
 **Ingresses**
 
-In order to provide a backend for HTTP API calls and allow self-registration of handlers we make use of the Ingress system in Kubernetes. It wasn't the clearest thing to set up, but reading through enough of the [nginx example](https://kubernetes.io/blog/2016/03/Kubernetes-1.2-and-simplifying-advanced-networking-with-Ingress) eventually got us to a good spot where it is easy to connect services to the frontend.
+In order to provide a backend for HTTP API calls and allow self-registration of handlers we make use of the Ingress system in Kubernetes. It wasn't the clearest thing to set up, but reading through enough of the [nginx example](https://kubernetes.io/blog/2016/03/kubernetes-1-2-and-simplifying-advanced-networking-with-ingress/) eventually got us to a good spot where it is easy to connect services to the frontend.
 
 
 
@@ -61,7 +62,3 @@ While we generally treat all of our pods and containers as ephemeral and expect 
 Kubernetes saves us the non-trivial task of managing many, many containers across many nodes. It provides a robust API and tooling for introspecting these containers, and it includes much built in support for logging, metrics, monitoring and debugging. Service discovery and networking alone saves us so much time and speeds development immensely.
 
 Cheers to you Kubernetes, keep up the good work :)
-
-
-
-_-- Andy Smith, CTO, Wercker_

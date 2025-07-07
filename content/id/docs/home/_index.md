@@ -3,8 +3,8 @@ title: Dokumentasi Kubernetes
 noedit: true
 cid: docsHome
 layout: docsportal_home
-class: gridPage
-linkTitle: "Home"
+class: gridPage gridPageHome
+linkTitle: "Dokumentasi"
 main_menu: true
 weight: 10
 hide_feedback: true
@@ -28,8 +28,8 @@ cards:
   button: "Lihat tutorial"
   button_path: "/docs/tutorials"
 - name: setup
-  title: "Menyiapkan sebuah kluster"
-  description: "Dapatkan kluster Kubernetes sesuai dengan kapasitas dan kebutuhanmu."
+  title: "Menyiapkan sebuah klaster"
+  description: "Dapatkan klaster Kubernetes sesuai dengan kapasitas dan kebutuhanmu."
   button: "Menyiapkan Kubernetes"
   button_path: "/docs/setup"
 - name: tasks
@@ -43,13 +43,15 @@ cards:
   button: Lihat referensi
   button_path: /docs/reference
 - name: contribute
-  title: Kontribusi ke dokumentasi
-  description: Siapapun bisa kontribusi, buat kamu yang baru atau sudah lama di proyek ini.
-  button: Kontribusi ke dokumentasi
+  title: Berkontribusi ke dokumentasi
+  description: Siapapun bisa berkontribusi, buat kamu yang baru atau sudah lama di proyek ini.
+  button: Berkontribusi ke dokumentasi
   button_path: /docs/contribute
 - name: download
   title: Unduh Kubernetes
   description: Untuk instalasi atau pembaharuan Kubernetes ke versi terbaru, lihat catatan rilis saat ini.
+  button: Unduh Kubernetes Sekarang
+  button_path: /releases/download/
 - name: about
   title: Tentang dokumentasi
   description: Situs ini merupakan dokumentasi dari Kubernetes versi saat ini dan 4 versi sebelumnya.

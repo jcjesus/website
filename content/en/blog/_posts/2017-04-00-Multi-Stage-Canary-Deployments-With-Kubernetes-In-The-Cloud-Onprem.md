@@ -3,16 +3,16 @@ title: " How Bitmovin is Doing Multi-Stage Canary Deployments with Kubernetes in
 date: 2017-04-21
 slug: multi-stage-canary-deployments-with-kubernetes-in-the-cloud-onprem
 url: /blog/2017/04/Multi-Stage-Canary-Deployments-With-Kubernetes-In-The-Cloud-Onprem
+author: >
+  Daniel Hoelbling-Inzko (Bitmovin)
 ---
-_Editor's Note: Today’s post is by Daniel Hoelbling-Inzko, Infrastructure Architect at Bitmovin, a company that provides services that transcode digital video and audio to streaming formats, sharing insights about their use of Kubernetes._  
-
 Running a large scale video encoding infrastructure on multiple public clouds is tough. At [Bitmovin](http://bitmovin.com/), we have been doing it successfully for the last few years, but from an engineering perspective, it’s neither been enjoyable nor particularly fun.   
 
 So obviously, one of the main things that really sold us on using Kubernetes, was it’s common abstraction from the different supported cloud providers and the well thought out programming interface it provides. More importantly, the Kubernetes project did not settle for the lowest common denominator approach. Instead, they added the necessary abstract concepts that are required and useful to run containerized workloads in a cloud and then did all the hard work to map these concepts to the different cloud providers and their offerings.  
 
 The great stability, speed and operational reliability we saw in our early tests in mid-2016 made the migration to Kubernetes a no-brainer.  
 
-And, it didn’t hurt that the vision for scale the Kubernetes project has been pursuing is closely aligned with our own goals as a company. Aiming for \>1,000 node clusters might be a lofty goal, but for a fast growing video company like ours, having your infrastructure aim to support future growth is essential. Also, after initial brainstorming for our new infrastructure, we immediately knew that we would be running a huge number of containers and having a system, with the expressed goal of working at global scale, was the perfect fit for us. Now with the recent [Kubernetes 1.6](https://kubernetes.io/blog/2017/03/kubernetes-1.6-multi-user-multi-workloads-at-scale) release and its [support for 5,000 node clusters](https://kubernetes.io/blog/2017/03/scalability-updates-in-kubernetes-1.6), we feel even more validated in our choice of a container orchestration system.  
+And, it didn’t hurt that the vision for scale the Kubernetes project has been pursuing is closely aligned with our own goals as a company. Aiming for \>1,000 node clusters might be a lofty goal, but for a fast growing video company like ours, having your infrastructure aim to support future growth is essential. Also, after initial brainstorming for our new infrastructure, we immediately knew that we would be running a huge number of containers and having a system, with the expressed goal of working at global scale, was the perfect fit for us. Now with the recent [Kubernetes 1.6](https://kubernetes.io/blog/2017/03/kubernetes-1-6-multi-user-multi-workloads-at-scale/) release and its [support for 5,000 node clusters](https://kubernetes.io/blog/2017/03/scalability-updates-in-kubernetes-1-6/), we feel even more validated in our choice of a container orchestration system.
 
 During the testing and migration phase of getting our infrastructure running on Kubernetes, we got quite familiar with the Kubernetes API and the whole ecosystem around it. So when we were looking at expanding our cloud video encoding offering for customers to use in their own datacenters or cloud environments, we quickly decided to leverage Kubernetes as our ubiquitous cloud operating system to base the solution on.  
 
@@ -204,11 +204,6 @@ To summarize this post - by migrating our infrastructure to Kubernetes, Bitmovin
 
 
 We want to thank the Kubernetes community for the incredible job they have done with the project. The velocity at which the project moves is just breathtaking! Maintaining such a high level of quality and robustness in such a diverse environment is really astonishing.
-
-
-
-_--Daniel Hoelbling-Inzko, Infrastructure Architect, Bitmovin_
-
 
 
 - Post questions (or answer questions) on [Stack Overflow](http://stackoverflow.com/questions/tagged/kubernetes)

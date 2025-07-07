@@ -1,58 +1,60 @@
 ---
 title: Halo Minikube
-content_template: templates/tutorial
+content_type: tutorial
 weight: 5
 menu:
   main:
     title: "Mulai"
     weight: 10
     post: >
-      <p>Siap untuk mengotori tanganmu? Yuk kita buat kluster Kubernetes sederhana yang menjalankan Node.js aplikasi "Halo Dunia".</p>
-card: 
+      <p>Siap untuk mengotori tanganmu? Yuk kita buat klaster Kubernetes sederhana yang menjalankan Node.js aplikasi "Halo Dunia".</p>
+card:
   name: tutorials
   weight: 10
 ---
 
-{{% capture overview %}}
+<!-- overview -->
 
-Tutorial ini menunjukkan bagaimana caranya menjalankan aplikasi sederhana Node.js Halo Dunia di Kubernetes, dengan [Minikube](/docs/getting-started-guides/minikube) dan Katacoda.
+Tutorial ini menunjukkan bagaimana caranya menjalankan aplikasi sederhana Node.js Halo Dunia di Kubernetes, dengan [`minikube`](/docs/getting-started-guides/minikube) dan Katacoda.
 Katacoda menyediakan <i>environment</i> Kubernetes secara gratis di dalam browser.
 
 {{< note >}}
-Kamupun bisa mengikuti tutorial ini kalau sudah instalasi [Minikube di lokal](/docs/tasks/tools/install-minikube/) kamu.
+Kamupun bisa mengikuti tutorial ini kalau sudah instalasi minikube di lokal. Silakan lihat [memulai `minikube`](https://minikube.sigs.k8s.io/docs/start/) untuk instruksi instalasi.
 {{< /note >}}
 
-{{% /capture %}}
 
-{{% capture objectives %}}
 
-* Deploy aplikasi halo dunia pada Minikube.
+## {{% heading "objectives" %}}
+
+
+* Deploy aplikasi halo dunia pada minikube.
 * Jalankan aplikasinya.
 * Melihat log aplikasi.
 
-{{% /capture %}}
 
-{{% capture prerequisites %}}
+
+## {{% heading "prerequisites" %}}
+
 
 Tutorial ini menyediakan image Kontainer yang dibuat melalui barisan kode berikut:
 
-{{< codenew language="js" file="minikube/server.js" >}}
+{{% codenew language="js" file="minikube/server.js" %}}
 
-{{< codenew language="conf" file="minikube/Dockerfile" >}}
+{{% codenew language="conf" file="minikube/Dockerfile" %}}
 
 Untuk info lebih lanjut tentang perintah `docker build`, baca [dokumentasi Docker](https://docs.docker.com/engine/reference/commandline/build/).
 
-{{% /capture %}}
 
-{{% capture lessoncontent %}}
 
-## Membuat sebuah kluster Minikube
+<!-- lessoncontent -->
 
-1. Tekan **Launch Terminal** 
+## Membuat sebuah klaster Minikube
+
+1. Tekan **Launch Terminal**
 
     {{< kat-button >}}
 
-    {{< note >}}Kalau kamu memilih instalasi Minikube secara lokal,  jalankan `minikube start`.{{< /note >}}
+    {{< note >}}Kalau kamu memilih instalasi minikube secara lokal, jalankan `minikube start`.{{< /note >}}
 
 2. Buka dasbor Kubernetes di dalam browser:
 
@@ -62,20 +64,20 @@ Untuk info lebih lanjut tentang perintah `docker build`, baca [dokumentasi Docke
 
 3. Hanya untuk <i>environment</i> Katacoda: Di layar terminal paling atas, tekan tombol plus, lalu lanjut tekan **Select port to view on Host 1**.
 
-4. Hanya untuk <i>environment</i> Katacoda: Ketik `30000`, lalu lanjut tekan **Display Port**. 
+4. Hanya untuk <i>environment</i> Katacoda: Ketik `30000`, lalu lanjut tekan **Display Port**.
 
 ## Membuat sebuah Deployment
 
-Sebuah Kubernetes [*Pod*](/docs/concepts/workloads/pods/pod/) adalah kumpulan dari satu atau banyak Kontainer,
+Sebuah Kubernetes [*Pod*](/id/docs/concepts/workloads/pods/pod/) adalah kumpulan dari satu atau banyak Kontainer,
 saling terhubung untuk kebutuhan administrasi dan jaringan. Pod dalam tutorial ini hanya punya satu Kontainer. Sebuah Kubernetes
-[*Deployment*](/docs/concepts/workloads/controllers/deployment/) selalu memeriksa kesehatan
+[*Deployment*](/id/docs/concepts/workloads/controllers/deployment/) selalu memeriksa kesehatan
 Pod kamu dan melakukan <i>restart</i> saat Kontainer di dalam Pod tersebut mati. Deployment adalah cara jitu untuk membuat dan mereplikasi Pod.
 
 1. Gunakan perintah `kubectl create` untuk membuat Deployment yang dapat mengatur Pod.
-Pod menjalankan Kontainer sesuai dengan image Docker yang telah diberikan. 
+Pod menjalankan Kontainer sesuai dengan image Docker yang telah diberikan.
 
     ```shell
-    kubectl create deployment hello-node --image=gcr.io/hello-minikube-zero-install/hello-node
+    kubectl create deployment hello-node --image=registry.k8s.io/echoserver:1.4
     ```
 
 2. Lihat Deployment:
@@ -103,7 +105,7 @@ Pod menjalankan Kontainer sesuai dengan image Docker yang telah diberikan.
     hello-node-5f76cf6ccf-br9b5   1/1       Running   0          1m
     ```
 
-4. Lihat <i>event</i> kluster:
+4. Lihat <i>event</i> klaster:
 
     ```shell
     kubectl get events
@@ -114,21 +116,21 @@ Pod menjalankan Kontainer sesuai dengan image Docker yang telah diberikan.
     ```shell
     kubectl config view
     ```
-  
+
     {{< note >}}Untuk info lebih lanjut tentang perintah `kubectl`, lihat [ringkasan kubectl](/docs/user-guide/kubectl-overview/).{{< /note >}}
 
 ## Membuat sebuah Servis
 
-Secara <i>default</i>, Pod hanya bisa diakses melalui alamat IP internal di dalam kluster Kubernetes.
-Supaya Kontainer `hello-node` bisa diakses dari luar jaringan virtual Kubernetes, kamu harus ekspos Pod sebagai [*Servis*](/docs/concepts/services-networking/service/) Kubernetes.
+Secara <i>default</i>, Pod hanya bisa diakses melalui alamat IP internal di dalam klaster Kubernetes.
+Supaya Kontainer `hello-node` bisa diakses dari luar jaringan virtual Kubernetes, kamu harus ekspos Pod sebagai [*Servis*](/id/docs/concepts/services-networking/service/) Kubernetes.
 
 1. Ekspos Pod pada internet publik menggunakan perintah `kubectl expose`:
 
     ```shell
     kubectl expose deployment hello-node --type=LoadBalancer --port=8080
     ```
-    
-    Tanda `--type=LoadBalancer` menunjukkan bahwa kamu ingin ekspos Servis keluar dari kluster.
+
+    Tanda `--type=LoadBalancer` menunjukkan bahwa kamu ingin ekspos Servis keluar dari klaster.
 
 2. Lihat Servis yang baru kamu buat:
 
@@ -144,8 +146,8 @@ Supaya Kontainer `hello-node` bisa diakses dari luar jaringan virtual Kubernetes
     kubernetes   ClusterIP      10.96.0.1       <none>        443/TCP          23m
     ```
 
-    Untuk penyedia cloud yang memiliki <i>load balancer</i>, sebuah alamat IP eksternal akan disediakan untuk mengakses Servis tersebut. 
-    Pada Minikube, tipe `LoadBalancer` membuat Servis tersebut dapat diakses melalui perintah `minikube service`.
+    Untuk penyedia cloud yang memiliki <i>load balancer</i>, sebuah alamat IP eksternal akan disediakan untuk mengakses Servis tersebut.
+    Pada minikube, tipe `LoadBalancer` membuat Servis tersebut dapat diakses melalui perintah `minikube service`.
 
 3. Jalankan perintah berikut:
 
@@ -161,7 +163,7 @@ Supaya Kontainer `hello-node` bisa diakses dari luar jaringan virtual Kubernetes
 
 ## Aktifkan addons
 
-Minikube punya beberapa <i>addons</i> yang bisa diaktifkan, dinon-aktifkan, maupun dibuka di dalam <i>environment</i> Kubernetes lokal.
+Perangkat minikube meliputi sekumpulan {{< glossary_tooltip text="addons" term_id="addons" >}} bawaan yang bisa diaktifkan, dinonaktifkan, maupun dibuka di dalam <i>environment</i> Kubernetes lokal.
 
 1. Daftar <i>addons</i> yang ada saat ini:
 
@@ -188,13 +190,13 @@ Minikube punya beberapa <i>addons</i> yang bisa diaktifkan, dinon-aktifkan, maup
     registry-creds: disabled
     storage-provisioner: enabled
     ```
-   
+
 2. Aktifkan sebuah <i>addon</i>, misalnya `heapster`:
 
     ```shell
     minikube addons enable heapster
     ```
-  
+
     Keluaran:
 
     ```shell
@@ -231,7 +233,7 @@ Minikube punya beberapa <i>addons</i> yang bisa diaktifkan, dinon-aktifkan, maup
     ```shell
     minikube addons disable heapster
     ```
-  
+
     Keluaran:
 
     ```shell
@@ -240,31 +242,32 @@ Minikube punya beberapa <i>addons</i> yang bisa diaktifkan, dinon-aktifkan, maup
 
 ## Bersih-bersih
 
-Sekarang, mari kita bersihkan semua <i>resource</i> yang kamu buat di kluster:
+Sekarang, mari kita bersihkan semua <i>resource</i> yang kamu buat di klaster:
 
 ```shell
 kubectl delete service hello-node
 kubectl delete deployment hello-node
 ```
 
-Kamu juga boleh mematikan mesin virtual (VM) untuk Minikube:
+Kamu juga boleh mematikan mesin virtual atau _virtual machine_ (VM) untuk minikube:
 
 ```shell
 minikube stop
 ```
 
-Kamu juga boleh menghapus Minikube VM:
+Kamu juga boleh menghapus minikube VM:
 
 ```shell
 minikube delete
 ```
 
-{{% /capture %}}
 
-{{% capture whatsnext %}}
 
-* Pelajari lebih lanjut tentang [Deployment](/docs/concepts/workloads/controllers/deployment/).
+## {{% heading "whatsnext" %}}
+
+
+* Pelajari lebih lanjut tentang [Deployment](/id/docs/concepts/workloads/controllers/deployment/).
 * Pelajari lebih lanjut tentang [Deploy aplikasi](/docs/user-guide/deploying-applications/).
-* Pelajari lebih lanjut tentang [Servis](/docs/concepts/services-networking/service/).
+* Pelajari lebih lanjut tentang [Servis](/id/docs/concepts/services-networking/service/).
 
-{{% /capture %}}
+

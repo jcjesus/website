@@ -3,9 +3,9 @@ title: " Draft: Kubernetes container development made easy "
 date: 2017-05-31
 slug: draft-kubernetes-container-development
 url: /blog/2017/05/Draft-Kubernetes-Container-Development
+author: >
+  Brendan Burns (Microsoft Azure)
 ---
-_Today's post is by __Brendan Burns, Director of Engineering at Microsoft Azure and Kubernetes co-founder._  
-
 About a month ago Microsoft announced the acquisition of Deis to expand our expertise in containers and Kubernetes. Today, I’m excited to announce a new open source project derived from this newly expanded Azure team: Draft.   
 
 While by now the strengths of Kubernetes for deploying and managing applications at scale are well understood. The process of developing a new application for Kubernetes is still too hard. It’s harder still if you are new to containers, Kubernetes, or developing cloud applications.  
@@ -18,7 +18,7 @@ Of course, as is the expectation with all infrastructure software today, Draft i
 
 To give you a sense for what Draft can do, here is an example drawn from the [Getting Started](https://github.com/Azure/draft/blob/master/docs/getting-started.md) page in the [GitHub repository](https://github.com/Azure/draft).  
 
-There are multiple example applications included within the [examples directory](https://github.com/Azure/draft/blob/master/examples). For this walkthrough, we'll be using the [python example application](https://github.com/Azure/draft/blob/master/examples/python) which uses [Flask](http://flask.pocoo.org/) to provide a very simple Hello World webserver.  
+There are multiple example applications included within the [examples directory](https://github.com/Azure/draft/blob/master/examples). For this walkthrough, we'll be using the [python example application](https://github.com/Azure/draft/tree/master/examples/example-python) which uses [Flask](http://flask.pocoo.org/) to provide a very simple Hello World webserver.  
 
 
  ```
@@ -180,15 +180,6 @@ The push refers to a repository [docker.io/microsoft/tufted-lamb]
 Now when we run curl http://$SERVICE\_IP, our first app has been deployed and updated to our Kubernetes cluster via Draft!
 
 We hope this gives you a sense for everything that Draft can do to streamline development for Kubernetes. Happy drafting!
-
-
-
-_--Brendan Burns, Director of Engineering, Microsoft Azure_
-
-
-
-
-
 
 
 - Post questions (or answer questions) on [Stack Overflow](http://stackoverflow.com/questions/tagged/kubernetes)

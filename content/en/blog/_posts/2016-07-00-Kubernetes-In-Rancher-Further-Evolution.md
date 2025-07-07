@@ -3,15 +3,16 @@ title: " Kubernetes in Rancher: the further evolution "
 date: 2016-07-12
 slug: kubernetes-in-rancher-further-evolution
 url: /blog/2016/07/Kubernetes-In-Rancher-Further-Evolution
+author: >
+  [Alena Prokharchyk](https://github.com/alena1108) (Rancher Labs)
 ---
-_Editor’s note: today's guest post is from Alena Prokharchyk, Principal Software Engineer at Rancher Labs, who’ll share how they are incorporating new Kubernetes features into their platform._  
 
 Kubernetes was the first external orchestration platform supported by [Rancher](http://rancher.com/kubernetes), and since its release, it has become one of the most widely used among our users, and continues to grow rapidly in adoption. As Kubernetes has evolved, so has Rancher in terms of adapting new Kubernetes features. We’ve started with supporting Kubernetes version 1.1, then switched to 1.2 as soon as it was released, and now we’re working on supporting the exciting new features in 1.3. I’d like to walk you through the features that we’ve been adding support for during each of these stages.  
 
 
 ### Rancher and Kubernetes 1.2
 
-Kubernetes 1.2 introduced enhanced Ingress object to simplify allowing inbound connections to reach the cluster services: here’s an excellent [blog post about ingress](https://kubernetes.io/blog/2016/03/Kubernetes-1.2-and-simplifying-advanced-networking-with-Ingress) policies. Ingress resource allows users to define host name routing rules and TLS config for the Load Balancer in a user friendly way. Then it should be backed up by an Ingress controller that would configure a corresponding cloud provider’s Load Balancer with the Ingress rules. Since Rancher already included a software defined Load Balancer based on HAproxy, we already supported all of the configuration requirements of the Ingress resource, and didn’t have to do any changes on the Rancher side to adopt Ingress. What we had to do was write an Ingress controller that would listen to Kubernetes ingress specific events, configure the Rancher Load Balancer accordingly, and propagate the Load Balancer public entry point back to Kubernetes:  
+Kubernetes 1.2 introduced enhanced Ingress object to simplify allowing inbound connections to reach the cluster services: here’s an excellent [blog post about ingress](https://kubernetes.io/blog/2016/03/kubernetes-1-2-and-simplifying-advanced-networking-with-ingress/) policies. Ingress resource allows users to define host name routing rules and TLS config for the Load Balancer in a user friendly way. Then it should be backed up by an Ingress controller that would configure a corresponding cloud provider’s Load Balancer with the Ingress rules. Since Rancher already included a software defined Load Balancer based on HAproxy, we already supported all of the configuration requirements of the Ingress resource, and didn’t have to do any changes on the Rancher side to adopt Ingress. What we had to do was write an Ingress controller that would listen to Kubernetes ingress specific events, configure the Rancher Load Balancer accordingly, and propagate the Load Balancer public entry point back to Kubernetes:
 
 
 
@@ -155,7 +156,7 @@ Then every underlying Kubernetes cluster represented by Rancher environment, sho
 
 
 - Kubernetes [cluster federation design doc](https://github.com/kubernetes/kubernetes/blob/master/docs/design/federation-phase-1.md)
-- Kubernetes [blog post on multi zone clusters](https://kubernetes.io/blog/2016/03/building-highly-available-applications-using-Kubernetes-new-multi-zone-clusters-a.k.a-Ubernetes-Lite)
+- Kubernetes [blog post on multi zone clusters](https://kubernetes.io/blog/2016/03/building-highly-available-applications-using-kubernetes-new-multi-zone-clusters-aka-ubernetes-lite/)
 - Kubernetes [federated services design doc](https://github.com/kubernetes/kubernetes/blob/master/docs/design/federated-services.md)
 
 
@@ -178,18 +179,6 @@ So we’ve decided to eliminate the need of Rancher Kubernetes distribution, and
 - Enhanced UI to represent even more Kubernetes objects like: Deployment, Ingress, Daemonset.
 
 All of that is to make Kubernetes experience even more powerful and user intuitive. We’re so excited by all of the progress in the Kubernetes community, and thrilled to be participating. Kubernetes 1.3 is an incredibly significant release, and you’ll be able to upgrade to it very soon within Rancher.
-
-
-
-
-
-_-- Alena Prokharchyk, Principal Software Engineer, Rancher Labs. [Twitter @lemonjet](https://twitter.com/Lemonjet) & [GitHub alena1108](https://github.com/alena1108)_
-
-
-
-
-
-
 
 
  ![Rancher-and-Kubernetes.png](https://lh4.googleusercontent.com/isAt46fnmGerA0uPoTUlUS7y5MtmOYfMvKoTC52CK0ckUfFKVO_coY78jgLoQuxe4J3GVf3N2_IWCuKwxpRT6q_h4ek4yepfyWBmN_WSqyB2v7rRaZrpG4hPpuH0hIbIcmTDgUul)

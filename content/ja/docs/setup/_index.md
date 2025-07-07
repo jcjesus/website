@@ -1,78 +1,56 @@
 ---
 no_issue: true
-title: セットアップ
+title: はじめに
 main_menu: true
-weight: 30
-content_template: templates/concept
+weight: 20
+content_type: concept
+no_list: true
+card:
+  name: setup
+  weight: 20
+  anchors:
+  - anchor: "#learning-environment"
+    title: 環境について学ぶ
+  - anchor: "#production-environment"
+    title: 本番環境
 ---
 
-{{% capture overview %}}
+<!-- overview -->
 
-このページを使い、自分のニーズに最も適したソリューションを見つけてください。
+このセクションではKubernetesをセットアップして動かすための複数のやり方について説明します。
+Kubernetesをインストールする際には、メンテナンスの容易さ、セキュリティ、制御、利用可能なリソース、クラスターの運用および管理に必要な専門知識に基づいてインストレーションタイプを選んでください。
 
-Kubernetesをどこで実行するかは、利用可能なリソースと必要な柔軟性によって異なります。ノートPCからクラウドプロバイダのVM、ベアメタルのラックまで、ほぼどのような場所でもKubernetesを実行できます。単一のコマンドを実行して完全に管理された
-を設定したり、ベアメタルで独自にカスタマイズしたクラスタを作成したりすることもできます。
+Kuerbetesクラスターをローカルマシン、クラウド、データセンターにデプロイするために、[Kubernetesをダウンロード](/releases/download/)できます。
 
-{{% /capture %}}
+{{< glossary_tooltip text="kube-apiserver" term_id="kube-apiserver" >}}や{{< glossary_tooltip text="kube-proxy" term_id="kube-proxy" >}}のようないくつかの[Kubernetesのコンポーネント](/ja/docs/concepts/overview/components/)も、[コンテナイメージ](/releases/download/#container-images)としてクラスター内にデプロイできます。
 
-{{% capture body %}}
+可能であればコンテナイメージとしてKubernetesのコンポーネントを実行し、それらのコンポーネントをKubernetesで管理するようにすることを**推奨**します。
+コンテナを実行するコンポーネント(特にkubelet)は、このカテゴリーには含まれません。
 
-## ローカルマシンソリューション
+Kubernetesクラスターを自分で管理するのを望まないなら、[認定プラットフォーム](/ja/docs/setup/production-environment/turnkey-solutions/)をはじめとする、マネージドのサービスを選択することもできます。
+複数のクラウドやベアメタル環境にまたがった、その他の標準あるいはカスタムのソリューションもあります。
 
-ローカルマシンソリューションは、Kubernetesを使い始めるための簡単な方法です。クラウドリソースと、割当量の消費を気にせずにKubernetesクラスタを作成してテストできます。
+<!-- body -->
 
-もし以下のようなことを実現したいのであれば、ローカルマシンソリューションを選ぶべきです:
+## 環境について学ぶ
 
-* Kubernetesの検証や勉強
-* ローカルでのクラスタの開発やテスト
+Kubernetesについて学んでいる場合、Kubernetesコミュニティにサポートされているツールや、Kubernetesクラスターをローカルマシンにセットアップするエコシステム内のツールを使いましょう。
+[ツールのインストール](/ja/docs/tasks/tools/)を参照してください。
 
-[ローカルマシンソリューション](/docs/setup/pick-right-solution/#local-machine-solutions)を選ぶ
+## プロダクション環境
 
-## ホスト型ソリューション
+[プロダクション環境](/ja/docs/setup/production-environment/)用のソリューションを評価する際には、Kubernetesクラスター(または*抽象概念*)の運用においてどの部分を自分で管理し、どの部分をプロバイダーに任せるのかを考慮してください。
 
-ホスト型ソリューションは、Kubernetesクラスタを作成および管理するためには便利な方法です。自身で管理せずとも、ホスティングプロバイダがクラスタを管理、運用します。
+自分で管理するクラスターであれば、Kubernetesをデプロイするための公式にサポートされているツールは[kubeadm](/ja/docs/setup/production-environment/tools/kubeadm/)です。
 
-もし以下のようなことを実現したいのであれば、ホスト型ソリューションを選ぶべきです:
+## {{% heading "whatsnext" %}}
 
-* 完全に管理されたソリューションが欲しい
-* アプリケーションやサービスの開発に集中したい
-* 専用のSite Reliability Engineering (SRE)チームはないが、高可用性を求めている
-* クラスタをホストしたり、監視したりするためのリソースがない
+- [Kubernetesのダウンロード](/releases/download/)
+- `kubectl`を含む、ツールのダウンロードと[インストール](/ja/docs/tasks/tools/)
+- 新しいクラスターのための[コンテナランタイム](/ja/docs/setup/production-environment/container-runtimes/)の選択
+- クラスターセットアップの[ベストプラクティス](/ja/docs/setup/best-practices/)を学ぶ
 
-[ホスト型ソリューション](/docs/setup/pick-right-solution/#hosted-solutions)を選ぶ
+Kubernetesは、その{{< glossary_tooltip term_id="control-plane" text="コントロールプレーン" >}}がLinux上で実行されるよう設計されています。
+クラスター内では、Linux上でも、Windowsを含めた別のオペレーティングシステム上でも、アプリケーションを実行できます。
 
-## ターンキークラウドソリューション
-
-このソリューションを使用すると、わずかなコマンドでKubernetesクラスタが作成できます。また、積極的に開発されており、積極的なコミュニティサポートを受けています。さまざまなCloud IaaSプロバイダでホストすることもできますが、努力と引き換えに、より多くの自由と柔軟性を提供します。
-
-もし以下のようなことを実現したいのであれば、ターンキークラウドソリューションを選ぶべきです:
-
-* ホスト型ソリューションが許可する以上に、クラスタをもっと制御したい
-* より多くのオペレーションの所有権を引き受けたい
-
-[ターンキークラウドソリューション](/docs/setup/pick-right-solution/#turnkey-cloud-solutions)を選ぶ
-
-## ターンキーオンプレミスソリューション
-
-このソリューションを使用すると、内部の安全なクラウドネットワーク上に、少ないコマンドでKubernetesクラスタを作成できます。
-
-もし以下のようなことを実現したいのであれば、ターンキーオンプレミスソリューションを選ぶべきです:
-
-* プライベートクラウド内にクラスタを配置したい
-* 専用のSREチームがいる
-* クラスタをホストし、監視するためのリソースを持っている
-
-[ターンキーオンプレミスソリューション](/docs/setup/pick-right-solution/#on-premises-turnkey-cloud-solutions)を選ぶ
-
-## カスタムソリューション
-
-カスタムソリューションは、クラスタに対して最も自由度が高いですが、専門知識が最も必要になります。このソリューションは、数多くのオペレーティングシステム上のベアメタルからクラウドプロバイダまで、多岐にわたります。
-
-[カスタムソリューション](/docs/setup/pick-right-solution/#custom-solutions)を選ぶ
-
-{{% /capture %}}
-
-{{% capture whatsnext %}}
-
-ソリューションの完全なリストを見るには、[正しいソリューションの選択](/docs/setup/pick-right-solution/) に進んでください。
-{{% /capture %}}
+- [Windowsノードのクラスターのセットアップ](/docs/concepts/windows/)について学ぶ

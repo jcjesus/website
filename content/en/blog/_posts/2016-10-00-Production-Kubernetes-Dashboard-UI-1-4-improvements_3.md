@@ -2,9 +2,11 @@
 title: " How we improved Kubernetes Dashboard UI in 1.4 for your production needs​ "
 date: 2016-10-03
 slug: production-kubernetes-dashboard-ui-1.4-improvements_3
-url: /blog/2016/10/Production-Kubernetes-Dashboard-UI-1.4-improvements_3
+url: /blog/2016/10/Production-Kubernetes-Dashboard-UI-1-4-improvements_3
+author: >
+  Dan Romlein (Apprenda)
 ---
-With the release of [Kubernetes 1.4](https://kubernetes.io/blog/2016/09/kubernetes-1.4-making-it-easy-to-run-on-kuberentes-anywhere) last week, Dashboard – the official web UI for Kubernetes – has a number of exciting updates and improvements of its own. The past three months have been busy ones for the Dashboard team, and we’re excited to share the resulting features of that effort here. If you’re not familiar with Dashboard, the [GitHub repo](https://github.com/kubernetes/dashboard#kubernetes-dashboard) is a great place to get started.  
+With the release of [Kubernetes 1.4](https://kubernetes.io/blog/2016/09/kubernetes-1-4-making-it-easy-to-run-on-kuberentes-anywhere/) last week, Dashboard – the official web UI for Kubernetes – has a number of exciting updates and improvements of its own. The past three months have been busy ones for the Dashboard team, and we’re excited to share the resulting features of that effort here. If you’re not familiar with Dashboard, the [GitHub repo](https://github.com/kubernetes/dashboard#kubernetes-dashboard) is a great place to get started.
 
 A quick recap before unwrapping our shiny new features: Dashboard was initially released March 2016. One of the focuses for Dashboard throughout its lifetime has been the onboarding experience; it’s a less intimidating way for Kubernetes newcomers to get started, and by showing multiple resources at once, it provides contextualization lacking in [kubectl](/docs/user-guide/kubectl-overview/) (the CLI). After that initial release though, the product team realized that fine-tuning for a beginner audience was getting ahead of ourselves: there were still fundamental product requirements that Dashboard needed to satisfy in order to have a productive UX to onboard new users too. That became our mission for this release: closing the gap between Dashboard and kubectl by showing more resources, leveraging a web UI’s strengths in monitoring and troubleshooting, and architecting this all in a user friendly way.  
 
@@ -17,10 +19,10 @@ Real time visualization is a strength that UI’s have over CLI’s, and with 1.
 
 
 **Logs**  
-Based on user research with Kubernetes’ predecessor&nbsp;[Borg](http://research.google.com/pubs/pub43438.html)&nbsp;and continued community feedback, we know logs are tremendously important to users. For this reason we’re constantly looking for ways to improve these features in Dashboard. This release includes a fix for an issue wherein large numbers of logs would crash the system, as well as the introduction of the ability to view logs by date.  
+Based on user research with Kubernetes’ predecessor&nbsp;[Borg](https://research.google/pubs/large-scale-cluster-management-at-google-with-borg/)&nbsp;and continued community feedback, we know logs are tremendously important to users. For this reason we’re constantly looking for ways to improve these features in Dashboard. This release includes a fix for an issue wherein large numbers of logs would crash the system, as well as the introduction of the ability to view logs by date.  
 
 **Showing More Resources**  
-The previous release brought all workloads to Dashboard: Pods, Pet Sets, Daemon Sets, Replication Controllers, Replica Set, Services, & Deployments. With 1.4, we expand upon that set of objects by including Services, Ingresses, Persistent Volume Claims, Secrets, & Config Maps. We’ve also introduced an “Admin” section with the Namespace-independent global objects of Namespaces, Nodes, and Persistent Volumes. With the addition of roles, these will be shown only to cluster operators, and developers’ side nav will begin with the Namespace dropdown.  
+The previous release brought all workloads to Dashboard: Pods, Pet Sets, Daemon Sets, Replication Controllers, Replica Set, Services, & Deployments. With 1.4, we expand upon that set of objects by including Services, Ingresses, Persistent Volume Claims, Secrets, & ConfigMaps. We’ve also introduced an “Admin” section with the Namespace-independent global objects of Namespaces, Nodes, and Persistent Volumes. With the addition of roles, these will be shown only to cluster operators, and developers’ side nav will begin with the Namespace dropdown.  
 
 Like glue binding together a loose stack of papers into a book, we needed some way to impose order on these resources for their value to be realized, so one of the features we’re most excited to announce in 1.4 is navigation.  
 
@@ -69,7 +71,6 @@ If you’ve been following along with Dashboard since 1.0, &nbsp;you may have be
 **There’s a Lot More Where That Came From**  
 Dashboard is gaining momentum, and these early stages are a very exciting and rewarding time to be involved. If you’d like to learn more about contributing, check out [SIG UI](https://github.com/kubernetes/community/blob/master/sig-ui/README.md). Chat with us Kubernetes Slack: [#sig-ui channel](https://kubernetes.slack.com/messages/sig-ui/).  
 
-_--Dan Romlein, UX designer, Apprenda_  
 
 
 

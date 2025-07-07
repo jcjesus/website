@@ -5,15 +5,15 @@ reviewers:
 - deads2k
 - liggitt
 title: Webhook Mode
-content_template: templates/concept
-weight: 95
+content_type: concept
+weight: 36
 ---
 
-{{% capture overview %}}
+<!-- overview -->
 A WebHook is an HTTP callback: an HTTP POST that occurs when something happens; a simple event-notification via HTTP POST. A web application implementing WebHooks will POST a message to a URL when certain things happen.
-{{% /capture %}}
 
-{{% capture body %}}
+
+<!-- body -->
 When specified, mode `Webhook` causes Kubernetes to query an outside REST
 service when determining user privileges.
 
@@ -108,7 +108,13 @@ the request and respond to either allow or disallow access. The response body's
 }
 ```
 
-To disallow access, the remote service would return:
+For disallowing access there are two methods.
+
+The first method is preferred in most cases, and indicates the authorization
+webhook does not allow, or has "no opinion" about the request, but if other 
+authorizers are configured, they are given a chance to allow the request. 
+If there are no other authorizers, or none of them allow the request, the 
+request is forbidden. The webhook would return:
 
 ```json
 {
@@ -116,6 +122,23 @@ To disallow access, the remote service would return:
   "kind": "SubjectAccessReview",
   "status": {
     "allowed": false,
+    "reason": "user does not have read access to the namespace"
+  }
+}
+```
+
+The second method denies immediately, short-circuiting evaluation by other 
+configured authorizers. This should only be used by webhooks that have 
+detailed knowledge of the full authorizer configuration of the cluster. 
+The webhook would return:
+
+```json
+{
+  "apiVersion": "authorization.k8s.io/v1beta1",
+  "kind": "SubjectAccessReview",
+  "status": {
+    "allowed": false,
+    "denied": true,
     "reason": "user does not have read access to the namespace"
   }
 }
@@ -141,16 +164,55 @@ Access to non-resource paths are sent as:
 }
 ```
 
-Non-resource paths include: `/api`, `/apis`, `/metrics`, `/resetMetrics`,
-`/logs`, `/debug`, `/healthz`, `/swagger-ui/`, `/swaggerapi/`, `/ui`, and
+{{< feature-state feature_gate_name="AuthorizeWithSelectors" >}}
+
+With the `AuthorizeWithSelectors` feature enabled, field and label selectors in the request
+are passed to the authorization webhook. The webhook can make authorization decisions
+informed by the scoped field and label selectors, if it wishes.
+
+The [SubjectAccessReview API documentation](/docs/reference/kubernetes-api/authorization-resources/subject-access-review-v1/)
+gives guidelines for how these fields should be interpreted and handled by authorization webhooks,
+specifically using the parsed requirements rather than the raw selector strings,
+and how to handle unrecognized operators safely.
+
+```json
+{
+  "apiVersion": "authorization.k8s.io/v1beta1",
+  "kind": "SubjectAccessReview",
+  "spec": {
+    "resourceAttributes": {
+      "verb": "list",
+      "group": "",
+      "resource": "pods",
+      "fieldSelector": {
+        "requirements": [
+          {"key":"spec.nodeName", "operator":"In", "values":["mynode"]}
+        ]
+      },
+      "labelSelector": {
+        "requirements": [
+          {"key":"example.com/mykey", "operator":"In", "values":["myvalue"]}
+        ]
+      }
+    },
+    "user": "jane",
+    "group": [
+      "group1",
+      "group2"
+    ]
+  }
+}
+```
+
+Non-resource paths include: `/api`, `/apis`, `/metrics`,
+`/logs`, `/debug`, `/healthz`, `/livez`, `/openapi/v2`, `/readyz`, and
 `/version.` Clients require access to `/api`, `/api/*`, `/apis`, `/apis/*`,
 and `/version` to discover what resources and versions are present on the server.
 Access to other non-resource paths can be disallowed without restricting access
 to the REST api.
 
-For further documentation refer to the authorization.v1beta1 API objects and
-[webhook.go](https://github.com/kubernetes/kubernetes/blob/{{< param "githubbranch" >}}/staging/src/k8s.io/apiserver/plugin/pkg/authorizer/webhook/webhook.go).
-
-{{% /capture %}}
-
+For further information, refer to the
+[SubjectAccessReview API documentation](/docs/reference/kubernetes-api/authorization-resources/subject-access-review-v1/)
+and
+[webhook.go implementation](https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/apiserver/plugin/pkg/authorizer/webhook/webhook.go).
 

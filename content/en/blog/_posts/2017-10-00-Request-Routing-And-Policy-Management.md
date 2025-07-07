@@ -3,8 +3,12 @@ title: " Request Routing and Policy Management with the Istio Service Mesh "
 date: 2017-10-10
 slug: request-routing-and-policy-management
 url: /blog/2017/10/Request-Routing-And-Policy-Management
+author: >
+  Frank Budinsky (IBM),
+  Andra Cismaru (Google),
+  Israel Shalom (Google)
 ---
- **_Editor's note: Today’s post by Frank Budinsky, Software Engineer, IBM, Andra Cismaru, Software Engineer, Google, and Israel Shalom, Product Manager, Google, is the second post in a three-part series on Istio. It offers a closer look at request routing and policy management._**  
+_**Editor's note:** Today’s post is the second post in a three-part series on Istio._
 
 In a [previous article](https://kubernetes.io/blog/2017/05/managing-microservices-with-istio-service-mesh), we looked at a [simple application (Bookinfo)](https://istio.io/docs/guides/bookinfo.html) that is composed of four separate microservices. The article showed how to deploy an application with Kubernetes and an Istio-enabled cluster without changing any application code. The article also outlined how to view Istio provided L7 metrics on the running services.  
 
@@ -92,7 +96,7 @@ Finally, we pointed our browser to [http://$BOOKINFO\_URL/productpage](about:bla
 
 
 ## HTTP request routing
-Existing container orchestration platforms like Kubernetes, Mesos, and other microservice frameworks allow operators to control when a particular set of pods/VMs should receive traffic (e.g., by adding/removing specific labels). Unlike existing techniques, Istio decouples traffic flow and infrastructure scaling. This allows Istio to provide a variety of traffic management features that reside outside the application code, including dynamic HTTP [request routing](https://istio.io/docs/concepts/traffic-management/request-routing.html) for A/B testing, canary releases, gradual rollouts, [failure recovery](https://istio.io/docs/concepts/traffic-management/handling-failures.html) using timeouts, retries, circuit breakers, and [fault injection](https://istio.io/docs/concepts/traffic-management/fault-injection.html) to test compatibility of failure recovery policies across services.   
+Existing container orchestration platforms like Kubernetes, Mesos, and other microservice frameworks allow operators to control when a particular set of pods/VMs should receive traffic (e.g., by adding/removing specific labels). Unlike existing techniques, Istio decouples traffic flow and infrastructure scaling. This allows Istio to provide a variety of traffic management features that reside outside the application code, including dynamic HTTP [request routing](https://istio.io/docs/concepts/traffic-management/#routing-rules) for A/B testing, canary releases, gradual rollouts, [failure recovery](https://istio.io/docs/concepts/traffic-management/#network-resilience-and-testing) using timeouts, retries, circuit breakers, and [fault injection](https://istio.io/docs/concepts/traffic-management/fault-injection.html) to test compatibility of failure recovery policies across services.   
 
 To demonstrate, we’ll deploy v2 of the **reviews** service and use Istio to make it visible only for a specific test user. We can create a Kubernetes deployment, reviews-v2, with [this YAML file](https://raw.githubusercontent.com/istio/istio/master/samples/kubernetes-blog/bookinfo-reviews-v2.yaml):  
 

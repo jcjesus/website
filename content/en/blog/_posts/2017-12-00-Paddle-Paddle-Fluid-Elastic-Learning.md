@@ -3,8 +3,16 @@ title: " PaddlePaddle Fluid: Elastic Deep Learning on Kubernetes "
 date: 2017-12-06
 slug: paddle-paddle-fluid-elastic-learning
 url: /blog/2017/12/Paddle-Paddle-Fluid-Elastic-Learning
+author: >
+  Xu Yan (Baidu Research),
+  Helin Wang (Baidu Research),
+  Yi Wu (Baidu Research),
+  Xi Chen (Baidu Research),
+  Weibao Gong (Baidu Research),
+  Xiang Li (CoreOS),
+  Yi Wang (Baidu Research) 
 ---
-_Editor's note: Today's post is a joint post from the deep learning team at Baidu and the etcd team at CoreOS._
+_**Editor's note:** Today's post is a joint post from the deep learning team at Baidu and the etcd team at CoreOS_
 
 
 
@@ -12,7 +20,7 @@ _Editor's note: Today's post is a joint post from the deep learning team at Baid
 
 Two open source communities—PaddlePaddle, the deep learning framework originated in Baidu, and Kubernetes®, the most famous containerized application scheduler—are announcing the Elastic Deep Learning (EDL) feature in PaddlePaddle’s new release codenamed Fluid.  
 
-Fluid EDL includes a [Kubernetes controller](https://github.com/kubernetes/community/blob/master/contributors/devel/controllers.md), [_PaddlePaddle auto-scaler_](https://github.com/PaddlePaddle/cloud/tree/develop/doc/autoscale), which changes the number of processes of distributed jobs according to the idle hardware resource in the cluster, and a new fault-tolerable architecture as described in the [PaddlePaddle design doc](https://github.com/PaddlePaddle/Paddle/blob/develop/doc/design/cluster_train/README.md).  
+Fluid EDL includes a [Kubernetes controller](https://github.com/kubernetes/community/blob/master/contributors/devel/sig-api-machinery/controllers.md), [_PaddlePaddle auto-scaler_](https://github.com/PaddlePaddle/cloud/tree/develop/doc/edl/experiment#auto-scaling-experiment), which changes the number of processes of distributed jobs according to the idle hardware resource in the cluster, and a new fault-tolerable architecture as described in the [PaddlePaddle design doc](https://github.com/PaddlePaddle/Paddle/blob/develop/doc/design/cluster_train/README.md).  
 
 Industrial deep learning requires significant computation power. Research labs and companies often build GPU clusters managed by SLURM, MPI, or SGE. These clusters either run a submitted job if it requires less than the idle resource, or pend the job for an unpredictably long time. This approach has its drawbacks: in an example with 99 available nodes and a submitted job that requires 100, the job has to wait without using any of the available nodes. Fluid works with Kubernetes to power elastic deep learning jobs, which often lack optimal resources, by helping to expose potential algorithmic problems as early as possible.  
 
@@ -37,13 +45,6 @@ In the second test, each experiment ran 400 Nginx pods, which has higher priorit
 | _Figure 2. Fluid changes PaddlePaddle processes with the change of Nginx processes._ |
 
 
-We continue to work on FluidEDL and welcome comments and contributions. Visit the [PaddlePaddle repo](https://github.com/PaddlePaddle/cloud), where you can find the [design doc](https://github.com/PaddlePaddle/cloud/blob/develop/doc/autoscale/README.md), a [simple tutorial](https://github.com/PaddlePaddle/cloud/blob/develop/doc/autoscale/example/autoscale.md), and [experiment details](https://github.com/PaddlePaddle/cloud/tree/develop/doc/autoscale/experiment).  
+We continue to work on FluidEDL and welcome comments and contributions. Visit the [PaddlePaddle repo](https://github.com/PaddlePaddle/cloud), where you can find the [design doc](https://github.com/PaddlePaddle/cloud/tree/develop/doc/design), a [simple tutorial](https://github.com/PaddlePaddle/cloud/blob/develop/doc/autoscale/example/autoscale.md), and [experiment details](https://github.com/PaddlePaddle/cloud/tree/develop/doc/edl/experiment).  
 
-- Xu Yan (Baidu Research)
-- Helin Wang (Baidu Research)
-- Yi Wu (Baidu Research)
-- Xi Chen (Baidu Research)
-- Weibao Gong (Baidu Research)
-- Xiang Li (CoreOS)
 
-- Yi Wang (Baidu Research)

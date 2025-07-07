@@ -1,76 +1,71 @@
 ---
-no_issue: true
-title: 설치
+# reviewers:
+# - brendandburns
+# - erictune
+# - mikedanese
+title: 시작하기
 main_menu: true
-weight: 30
-content_template: templates/concept
+weight: 20
+content_type: concept
+no_list: true
+card:
+  name: setup
+  weight: 20
+  anchors:
+  - anchor: "#학습-환경"
+    title: 학습 환경
+  - anchor: "#프로덕션-환경"
+    title: 프로덕션 환경
 ---
 
-{{% capture overview %}}
+<!-- overview -->
 
-니즈에 가장 적합한 솔루션 유형을 찾기 위해서는 이 페이지를 사용하길 바란다.
+본 섹션에는 쿠버네티스를 설정하고 실행하는 다양한 방법이 나열되어 있다.
+쿠버네티스를 설치할 때는 유지보수의 용이성, 보안, 제어, 사용 가능한 리소스, 그리고
+클러스터를 운영하고 관리하기 위해 필요한 전문성을 기반으로 설치 유형을 선택한다.
 
-쿠버네티스를 어디에서 동작시킬지 결정하는 것은 가용한 자원과 요구되는 유연성의 정도에 의존적이다. 쿠버네티스는 랩톱부터, 클라우드 프로바이더의 VM, 베어메탈(bare metal) 서버로 이루어진 랙까지 거의 모든 곳에서 동작시킬 수 있다. 또한 단 하나의 명령어 실행으로 완전-관리되는(fully-managed) 클러스터를 설치할 수도 있고, 베어메탈 서버에 자신만의 맞춤형 클러스터를 만들 수도 있다.
+[쿠버네티스를 다운로드](/releases/download/)하여 
+로컬 머신에, 클라우드에, 데이터센터에 쿠버네티스 클러스터를 구축할 수 있다.
 
-{{% /capture %}}
+{{< glossary_tooltip text="kube-apiserver" term_id="kube-apiserver" >}}나 {{< glossary_tooltip text="kube-proxy" term_id="kube-proxy" >}}와 같은 몇몇 [쿠버네티스 컴포넌트](/releases/download/)들은
+클러스터 내에서 [컨테이너 이미지](/releases/download/#container-images)를 통해 배포할 수 있다.
 
-{{% capture body %}}
+쿠버네티스 컴포넌트들은 가급적 컨테이너 이미지로 실행하는 것을 **추천**하며,
+이를 통해 쿠버네티스가 해당 컴포넌트들을 관리하도록 한다.
+컨테이너를 구동하는 컴포넌트(특히 kubelet)는 여기에 속하지 않는다.
 
-## 로컬 머신(Local-machine) 솔루션
+쿠버네티스 클러스터를 직접 관리하고 싶지 않다면, [인증된 플랫폼](/ko/docs/setup/production-environment/turnkey-solutions/)과 
+같은 매니지드 서비스를 선택할 수도 있다.
+광범위한 클라우드 또는 베어 메탈 환경에 걸쳐 사용할 수 있는 
+표준화된/맞춤형 솔루션도 있다.
 
-로컬 머신 솔루션은 쿠버네티스를 시작하기에 쉬운 방법이다. 클라우드 자원(resource)과 한도(quota)에 대한 걱정 없이 쿠버네티스 클러스터를 생성하고 테스트할 수 있다.
+<!-- body -->
 
-다음과 같은 사항을 원한다면 로컬 솔루션을 선택해야 한다. 
+## 학습 환경
 
-* 쿠버네티스를 써 보거나 배우기 시작하려고 함
-* 내부적으로 클러스터를 개발하거나 테스트하려고 함
+쿠버네티스를 배우고 있다면, 쿠버네티스 커뮤니티에서 지원하는 도구나, 
+로컬 머신에서 쿠버네티스를 설치하기 위한 생태계 내의 도구를 사용한다.
+[도구 설치](/ko/docs/tasks/tools/)를 살펴본다.
 
-[로컬 머신 솔루션](/docs/setup/pick-right-solution/#local-machine-solutions) 중 하나를 선택하길 바란다.
+## 프로덕션 환경
 
-## 호스트 된(Hosted) 솔루션
+[프로덕션 환경](/ko/docs/setup/production-environment/)을 위한 
+솔루션을 평가할 때에는, 쿠버네티스 클러스터(또는 _추상화된 객체_) 
+운영에 대한 어떤 측면을 스스로 관리하기를 원하는지, 
+또는 제공자에게 넘기기를 원하는지 고려한다.
 
-호스트 된 솔루션은 쿠버네티스 클러스터를 생성하고 유지 관리하는데 편리한 방법이다. 호스트가 사용자의 클러스터를 관리하고 운영하기 때문에 사용자는 관리와 운영에서 자유롭다.
+클러스터를 직접 관리하는 경우, 공식적으로 지원되는 쿠버네티스 구축 도구는 
+[kubeadm](/ko/docs/setup/production-environment/tools/kubeadm/)이다.
 
-다음의 경우 호스트 된 솔루션이 필요하다.
+## {{% heading "whatsnext" %}}
 
-* 완전히 관리된 솔루션을 원함
-* 사용자의 앱 또는 서비스를 개발에만 집중하고 싶음 
-* 지정된 사이트 신뢰성 엔지니어링(SRE) 팀은 없지만 고가용성을 원함
-* 클러스터를 호스팅하고 모니터할 자원이 없음 
+- [쿠버네티스를 다운로드](/releases/download/)한다.
+- `kubectl`을 포함한 [도구를 설치](/ko/docs/tasks/tools/)한다.
+- 새로운 클러스터에 사용할 [컨테이너 런타임](/ko/docs/setup/production-environment/container-runtimes/)을 선택한다.
+- 클러스터 구성의 [모범 사례](/ko/docs/setup/best-practices/)를 확인한다.
 
-[호스트 된 솔루션](/docs/setup/pick-right-solution/#hosted-solutions) 중 하나를 선택하길 바란다.
+쿠버네티스의 {{< glossary_tooltip term_id="control-plane" text="컨트롤 플레인" >}}은 
+리눅스에서 실행되도록 설계되었다. 클러스터 내에서는 리눅스 또는 
+다른 운영 체제(예: 윈도우)에서 애플리케이션을 실행할 수 있다.
 
-## 턴키(Turnkey) – 클라우드 솔루션
-
-이와 같은 솔루션들은 쿠버네티스 클러스터를 단지 몇 가지 명령어로 생성하게 해준다. 솔루션들은 활발히 개발되며 활동적인 커뮤니티의 지원을 받는다. 또한 넓은 범위의 IaaS 클라우드 프로바이더들에 호스트 될 수 있음에도, 노력의 대가로 솔루션들은 더욱 더 큰 자유와 유연성을 제공한다.
-
-다음의 경우 턴키 클라우드 솔루션을 선택해야 한다.
-
-* 호스트 된 솔루션이 허용하는 것보다는 클러스터에 대한 더 높은 제어권을 원함
-* 운영에 대한 더 큰 소유권을 가지고 싶음 
-
-[턴키 클라우드 솔루션](/docs/setup/pick-right-solution/#turnkey-cloud-solutions) 중 하나를 선택하길 바란다.
-
-## 턴키(Turnkey) – 온-프레미스(On-Premise) 솔루션
-
-이와 같은 솔루션들은 내부의, 안전한, 클라우드 네트워크에 쿠버네티스 클러스터를 단 몇 가지 명령어로 생성하게 해준다.
-
-다음의 경우 온-프레미스 턴키 솔루션을 선택해야 한다.
-
-* 프라이빗 클라우드 네트워크에 클러스터를 디플로이하길 원함 
-* 지정된 사이트 신뢰성 엔지니어링(SRE) 팀을 보유함
-* 클러스터를 호스팅하고 모니터할 수 있는 자원을 보유함
-
-[온-프레미스 턴키 클라우드 솔루션](/docs/setup/pick-right-solution/#on-premises-turnkey-cloud-solutions) 중 하나를 선택하길 바란다.
-
-## 사용자 지정(Custom) 솔루션
-
-사용자 지정 솔루션들은 클러스터에 대해서 가장 큰 자유를 제공하지만, 그 대신 높은 전문성을 필요로 한다. 이 솔루션들은 서로 다른 운영체제들에 대해서 베어메탈부터 클라우드 프로바이더들까지의 지원을 포함한다. 
-
-[사용자 지정 솔루션](/docs/setup/pick-right-solution/#custom-solutions) 중 하나를 선택하길 바란다.
-
-{{% /capture %}}
-
-{{% capture whatsnext %}}
-완전한 솔루션 리스트를 확인하기 위해서는 [올바른 솔루션 선택하기](/docs/setup/pick-right-solution/)로 가길 바란다.
-{{% /capture %}}
+- [윈도우 노드를 포함하는 클러스터 구성하기](/ko/docs/concepts/windows/)를 살펴본다.

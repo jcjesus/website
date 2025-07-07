@@ -3,12 +3,14 @@ title: " Kubernetes supports OpenAPI "
 date: 2016-12-23
 slug: kubernetes-supports-openapi
 url: /blog/2016/12/Kubernetes-Supports-Openapi
+author: >
+  Mehdy Bohlool (Google)
 ---
-_Editor’s note: this post is part of a [series of in-depth articles](https://kubernetes.io/blog/2016/12/five-days-of-kubernetes-1.5) on what's new in Kubernetes 1.5_  
+_**Editor's note:** this post is part of a [series of in-depth articles](/blog/2016/12/five-days-of-kubernetes-1-5/) on what's new in Kubernetes 1.5_
 
 [OpenAPI](https://www.openapis.org/) allows API providers to define their operations and models, and enables developers to automate their tools and generate their favorite language’s client to talk to that API server. Kubernetes has supported swagger 1.2 (older version of OpenAPI spec) for a while, but the spec was incomplete and invalid, making it hard to generate tools/clients based on it.   
 
-In Kubernetes 1.4, we introduced alpha support for the OpenAPI spec (formerly known as swagger 2.0 before it was donated to the [Open API Initiative](https://www.openapis.org/about)) by upgrading the current models and operations. Beginning in [Kubernetes 1.5](https://kubernetes.io/blog/2016/12/kubernetes-1.5-supporting-production-workloads), the support for the OpenAPI spec has been completed by auto-generating the spec directly from Kubernetes source, which will keep the spec--and documentation--completely in sync with future changes in operations/models.  
+In Kubernetes 1.4, we introduced alpha support for the OpenAPI spec (formerly known as swagger 2.0 before it was donated to the [Open API Initiative](https://www.openapis.org/about)) by upgrading the current models and operations. Beginning in [Kubernetes 1.5](https://kubernetes.io/blog/2016/12/kubernetes-1-5-supporting-production-workloads/), the support for the OpenAPI spec has been completed by auto-generating the spec directly from Kubernetes source, which will keep the spec--and documentation--completely in sync with future changes in operations/models.
 
 The new spec enables us to have better API documentation and we have even introduced a supported [python client](https://github.com/kubernetes-incubator/client-python).  
 
@@ -185,7 +187,6 @@ If you want to get involved in development of OpenAPI support, client libraries,
 
 
 
-_--Mehdy Bohlool, Software Engineer, Google_
 
 
 

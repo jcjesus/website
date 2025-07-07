@@ -2,9 +2,14 @@
 title: " Kubernetes 1.7: Security Hardening, Stateful Application Updates and Extensibility "
 date: 2017-06-30
 slug: kubernetes-1.7-security-hardening-stateful-application-extensibility-updates
-url: /blog/2017/06/Kubernetes-1.7-Security-Hardening-Stateful-Application-Extensibility-Updates
+url: /blog/2017/06/Kubernetes-1-7-Security-Hardening-Stateful-Application-Extensibility-Updates
+author: >
+   Aparna Sinha (Google),
+   Ihor Dvoretskyi (Mirantis)
 ---
-Today we’re announcing Kubernetes 1.7, a milestone release that adds security, storage and extensibility features motivated by widespread production use of Kubernetes in the most demanding enterprise environments.&nbsp;  
+_This article is by Aparna Sinha and Ihor Dvoretskyi, on behalf of the Kubernetes 1.7 release team._
+
+Today we’re announcing Kubernetes 1.7, a milestone release that adds security, storage and extensibility features motivated by widespread production use of Kubernetes in the most demanding enterprise environments.
 
 At-a-glance, security enhancements in this release include encrypted secrets, network policy for pod-to-pod communication, node authorizer to limit kubelet access and client / server TLS certificate rotation.&nbsp;  
 
@@ -19,7 +24,7 @@ Security:
 - [Node authorizer](/docs/reference/access-authn-authz/node/) and admission control plugin are new additions that restrict kubelet’s access to secrets, pods and other objects based on its node.
 - [Encryption for Secrets](/docs/tasks/administer-cluster/encrypt-data/), and other resources in etcd, is now available as alpha.&nbsp;
 - [Kubelet TLS bootstrapping](/docs/admin/kubelet-tls-bootstrapping/) now supports client and server certificate rotation.
-- [Audit logs](/docs/tasks/debug-application-cluster/audit/) stored by the API server are now more customizable and extensible with support for event filtering and webhooks. They also provide richer data for system audit.
+- [Audit logs](/docs/tasks/debug/debug-cluster/audit/) stored by the API server are now more customizable and extensible with support for event filtering and webhooks. They also provide richer data for system audit.
 
 Stateful workloads:  
 
@@ -32,7 +37,8 @@ Stateful workloads:
 Extensibility:  
 
 - [API aggregation](/docs/concepts/api-extension/apiserver-aggregation/) at runtime is the most powerful extensibility features in this release, allowing power users to add Kubernetes-style pre-built, 3rd party or user-created APIs to their cluster.
-- [Container Runtime Interface](https://github.com/kubernetes/community/blob/master/contributors/devel/container-runtime-interface.md) (CRI) has been enhanced with New RPC calls to retrieve container metrics from the runtime. [Validation tests for the CRI](https://github.com/kubernetes/community/blob/master/contributors/devel/cri-validation.md) have been published and Alpha integration with [containerd](http://containerd.io/), which supports basic pod lifecycle and image management is now available. Read our previous [in-depth post introducing CRI](https://kubernetes.io/blog/2016/12/container-runtime-interface-cri-in-kubernetes).
+
+- [Container Runtime Interface](https://github.com/kubernetes/community/blob/master/contributors/devel/sig-node/container-runtime-interface.md) (CRI) has been enhanced with New RPC calls to retrieve container metrics from the runtime. [Validation tests for the CRI](https://github.com/kubernetes/community/blob/master/contributors/devel/sig-node/cri-validation.md) have been published and Alpha integration with [containerd](http://containerd.io/), which supports basic pod lifecycle and image management is now available. Read our previous [in-depth post introducing CRI](https://kubernetes.io/blog/2016/12/container-runtime-interface-cri-in-kubernetes).
 
 Additional Features:  
 
@@ -76,5 +82,3 @@ The simplest way to get involved is joining one of the many [Special Interest Gr
 
 Many thanks to our vast community of contributors and supporters in making this and all releases possible.  
 
-
-_-- Aparna Sinha, Group Product Manager, Kubernetes Google and Ihor Dvoretskyi, Program Manager, Kubernetes Mirantis_  

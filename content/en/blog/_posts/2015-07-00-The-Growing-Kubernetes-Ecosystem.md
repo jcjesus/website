@@ -3,6 +3,8 @@ title: " The Growing Kubernetes Ecosystem "
 date: 2015-07-24
 slug: the-growing-kubernetes-ecosystem
 url: /blog/2015/07/The-Growing-Kubernetes-Ecosystem
+author: >
+   Martin Buhr (Google)
 ---
 Over the past year, we’ve seen fantastic momentum in the Kubernetes project, culminating with the release of [Kubernetes v1][4] earlier this week. We’ve also witnessed the ecosystem around Kubernetes blossom, and wanted to draw attention to some of the cooler offerings we’ve seen.
 
@@ -95,7 +97,7 @@ Mesosphere has incorporated Kubernetes into its Data Center Operating System (DC
 
  |
 
-[Platalytics, Inc][24]. and announced the release of one-touch deploy-anywhere feature for its Spark Application Platform. Based on Kubernetes, Docker, and CoreOS, it allows simple and automated deployment of Apache Hadoop, Spark, and Platalytics platform, with a single click, to all major public clouds, including Google, Amazon, Azure, Digital Ocean, and private on-premise clouds. It also enables hybrid cloud scenarios, where resources on public and private clouds can be mixed.
+[Platalytics, Inc][24]. and announced the release of one-touch deploy-anywhere feature for its Spark Application Platform. Based on Kubernetes, Docker, and CoreOS, it allows simple and automated deployment of Apache Hadoop, Spark, and Platalytics platform, with a single click, to all major public clouds, including Google, Amazon, Azure, DigitalOcean, and private on-premise clouds. It also enables hybrid cloud scenarios, where resources on public and private clouds can be mixed.
 
  |  
 |
@@ -187,7 +189,6 @@ We’ve also seen a community of services partners spring up to assist in adopti
 
  |
 
- \- Martin Buhr, Product Manager at Google
 
  [1]: https://lh4.googleusercontent.com/2dJvY1Cl9i6SQ8apKARcisvFZPDYY5LltIsmz3W-jmon7DFE4p7cz3gsBPuz9KM_LSiuwx1xIPYr9Ygm5DTQ2f-DUyWsg7zs7YL7O3JMCHQ8Ji4B3EGpx26fbF_glQPPPp4RQTE
 [2]: http://blog.cloudbees.com/2015/07/on-demand-jenkins-slaves-with.html

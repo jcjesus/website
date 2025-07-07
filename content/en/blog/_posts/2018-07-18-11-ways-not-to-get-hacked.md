@@ -2,9 +2,9 @@
 layout: blog
 title: "11 Ways (Not) to Get Hacked"
 date:  2018-07-18
+author: >
+  Andrew Martin (ControlPlane) 
 ---
-
-**Author**: Andrew Martin (ControlPlane)
 
 Kubernetes security has come a long way since the project&#39;s inception, but still contains some gotchas. Starting with the control plane, building up through workload and network security, and finishing with a projection into the future of security, here is a list of handy tips to help harden your clusters and increase their resilience if compromised.
 
@@ -66,7 +66,7 @@ There are plenty of [good examples](https://docs.bitnami.com/kubernetes/how-to/c
 
 Incorrect or excessively permissive RBAC policies are a security threat in case of a compromised pod. Maintaining least privilege, and continuously reviewing and improving RBAC rules, should be considered part of the "technical debt hygiene" that teams build into their development lifecycle.
 
-[Audit Logging](/docs/tasks/debug-application-cluster/audit/) (beta in 1.10) provides customisable API logging at the payload (e.g. request and response), and also metadata levels. Log levels can be tuned to your organisation&#39;s security policy - [GKE](https://cloud.google.com/kubernetes-engine/docs/how-to/audit-logging#audit_policy) provides sane defaults to get you started.
+[Audit Logging](/docs/tasks/debug/debug-cluster/audit/) (beta in 1.10) provides customisable API logging at the payload (e.g. request and response), and also metadata levels. Log levels can be tuned to your organisation&#39;s security policy - [GKE](https://cloud.google.com/kubernetes-engine/docs/how-to/audit-logging#audit_policy) provides sane defaults to get you started.
 
 For read requests such as get, list, and watch, only the request object is saved in the audit logs; the response object is not. For requests involving sensitive data such as Secret and ConfigMap, only the metadata is exported. For all other requests, both request and response objects are saved in audit logs.
 
@@ -285,7 +285,7 @@ The next stage of security&#39;s &quot;cloud native evolution&quot; looks to be 
 
 **A service mesh is a web of encrypted persistent connections, made between high performance &quot;sidecar&quot; proxy servers like Envoy and Linkerd. It adds traffic management, monitoring, and policy - all without microservice changes.**
 
-Offloading microservice security and networking code to a shared, battle tested set of libraries was already possible with [Linkerd](https://linkerd.io/), and the introduction of [Istio](https://istio.io/) by Google, IBM, and Lyft, has added an alternative in this space. With the addition of [SPIFFE](https://spiffe.io) for per-pod cryptographic identity and a plethora of [other features](https://istio.io/docs/concepts/what-is-istio/overview.html), Istio could simplify the deployment of the next generation of network security.
+Offloading microservice security and networking code to a shared, battle tested set of libraries was already possible with [Linkerd](https://linkerd.io/), and the introduction of [Istio](https://istio.io/) by Google, IBM, and Lyft, has added an alternative in this space. With the addition of [SPIFFE](https://spiffe.io) for per-pod cryptographic identity and a plethora of [other features](https://istio.io/docs/concepts/what-is-istio/), Istio could simplify the deployment of the next generation of network security.
 
 In &quot;Zero Trust&quot; networks there may be no need for traditional firewalling or Kubernetes network policy, as every interaction occurs over mTLS (mutual TLS), ensuring that both parties are not only communicating securely, but that the identity of both services is known.
 

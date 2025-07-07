@@ -3,14 +3,14 @@ title: Selektor Field
 weight: 60
 ---
 
-Selektor *field* memungkinkan kamu untuk [memilih (*select*) *resource* Kubernetes](/docs/concepts/overview/working-with-objects/kubernetes-objects) berdasarkan 
+Selektor *field* memungkinkan kamu untuk [memilih (*select*) *resource* Kubernetes](/id/docs/concepts/overview/working-with-objects/kubernetes-objects) berdasarkan
 nilai dari satu atau banyak *field resource*. Di bawah ini merupakan contoh dari beberapa *query* selektor *field*:
 
 * `metadata.name=my-service`
 * `metadata.namespace!=default`
 * `status.phase=Pending`
 
-Perintah `kubectl` di bawah ini memilih semua Pod dengan *field* [`status.phase`](/docs/concepts/workloads/pods/pod-lifecycle/#pod-phase) yang bernilai
+Perintah `kubectl` di bawah ini memilih semua Pod dengan *field* [`status.phase`](/id/docs/concepts/workloads/pods/pod-lifecycle/#pod-phase) yang bernilai
 `Running`:
 
 ```shell
@@ -50,7 +50,7 @@ kubectl get services --field-selector metadata.namespace!=default
 
 ## Selektor berantai
 
-Seperti halnya [label](/docs/concepts/overview/working-with-objects/labels) dan selektor-selektor lainnya, kamu dapat membuat selektor *field* berantai
+Seperti halnya [label](/id/docs/concepts/overview/working-with-objects/labels) dan selektor-selektor lainnya, kamu dapat membuat selektor *field* berantai
 (*chained*) dengan *list* yang dipisahkan oleh koma. Perintah `kubectl` di bawah ini memilih semua Pod dengan `status.phase` tidak sama dengan
 `Running` dan *field* `spec.restartPolicy` sama dengan `Always`:
 
@@ -64,5 +64,5 @@ Kamu dapat menggunakan selektor-selektor *field* dengan beberapa tipe *resource*
 dan Service yang tidak terdapat pada *namespace* `default`:
 
 ```shell
-kubectl get statefulsets,services --field-selector metadata.namespace!=default
+kubectl get statefulsets,services --all-namespaces --field-selector metadata.namespace!=default
 ```

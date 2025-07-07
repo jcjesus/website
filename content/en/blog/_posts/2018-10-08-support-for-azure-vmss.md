@@ -2,19 +2,20 @@
 layout: blog
 title: 'Support for Azure VMSS,  Cluster-Autoscaler and User Assigned Identity'
 date: 2018-10-08
+author: >
+  [Krishnakumar R (KK)](https://twitter.com/kkwriting) (Microsoft),
+  [Pengfei Ni](https://twitter.com/feisky) (Microsoft)
 ---
-
-**Author**: [Krishnakumar R (KK)](https://twitter.com/kkwriting) (Microsoft), [Pengfei Ni](https://twitter.com/feisky) (Microsoft)
 
 ## Introduction
 
 With Kubernetes v1.12, Azure virtual machine scale sets (VMSS) and cluster-autoscaler have reached their General Availability (GA) and User Assigned Identity is available as a preview feature.
 
-_Azure VMSS allow you to create and manage identical, load balanced VMs that automatically increase or decrease based on demand or a set schedule. This enables you to easily manage and scale multiple VMs to provide high availability and application resiliency, ideal for large-scale applications like container workloads [[1]](https://docs.microsoft.com/en-us/azure/virtual-machine-scale-sets/overview)._
+_Azure VMSS allow you to create and manage identical, load balanced VMs that automatically increase or decrease based on demand or a set schedule. This enables you to easily manage and scale multiple VMs to provide high availability and application resiliency, ideal for large-scale applications like container workloads [[1]](https://learn.microsoft.com/en-us/azure/virtual-machine-scale-sets/overview)._
 
 Cluster autoscaler allows you to adjust the size of the Kubernetes clusters based on the load conditions automatically.
 
-Another exciting feature which v1.12 brings to the table is the ability to use User Assigned Identities with Kubernetes clusters [[12]](https://docs.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/overview).
+Another exciting feature which v1.12 brings to the table is the ability to use User Assigned Identities with Kubernetes clusters [[12]](https://learn.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/overview).
 
 In this article, we will do a brief overview of VMSS, cluster autoscaler and user assigned identity features on Azure.
 
@@ -22,7 +23,7 @@ In this article, we will do a brief overview of VMSS, cluster autoscaler and use
 
 Azure’s Virtual Machine Scale sets (VMSS) feature offers users an ability to automatically create VMs from a single central configuration, provide load balancing via L4 and L7 load balancing, provide a path to use availability zones for high availability, provides large-scale VM instances et. al.
 
-VMSS consists of a group of virtual machines, which are identical and can be managed and configured at a group level. More details of this feature in Azure itself can be found at the following link [[1]](https://docs.microsoft.com/en-us/azure/virtual-machine-scale-sets/overview).
+VMSS consists of a group of virtual machines, which are identical and can be managed and configured at a group level. More details of this feature in Azure itself can be found at the following link [[1]](https://learn.microsoft.com/en-us/azure/virtual-machine-scale-sets/overview).
 
 With Kubernetes v1.12 customers can create k8s cluster out of VMSS instances and utilize VMSS features.
 
@@ -65,7 +66,7 @@ In addition to the above interfaces, the storage services from the cloud provide
 
 ## Azure cloud provider implementation and VMSS
 
-In the Azure cloud provider, for every type of cluster we implement, there is a VMType option which we specify. In case of VMSS, the VM type is “vmss”.  The provisioning software (acs-engine, in future AKS etc.) would setup these values in /etc/kubernetes/azure.json file. Based on this type, various implementations would get instantiated [[3]](https://github.com/kubernetes/kubernetes/blob/master/pkg/cloudprovider/providers/azure/azure_vmss.go)
+In the Azure cloud provider, for every type of cluster we implement, there is a VMType option which we specify. In case of VMSS, the VM type is “vmss”.  The provisioning software (acs-engine, in future AKS etc.) would setup these values in /etc/kubernetes/azure.json file. Based on this type, various implementations would get instantiated [[3]](https://github.com/kubernetes/kubernetes/blob/release-1.17/staging/src/k8s.io/legacy-cloud-providers/azure/azure_vmss.go)
 
 The load balancer interface provides access to the underlying cloud provider load balancer service. The information about the load balancers and the control operations on them are required for Kubernetes to handle the services which gets hosted on the Kubernetes cluster. For VMSS support the changes ensure that the VMSS instances are part of the load balancer pool as required.
 
@@ -254,7 +255,7 @@ Cluster Autoscaler currently supports four VM types: standard (VMAS), VMSS, ACS 
 
 ## User Assigned Identity
 
-Inorder for the Kubernetes cluster components to securely talk to the cloud services, it needs to authenticate with the cloud provider. In Azure Kubernetes clusters, up until now this was done using two ways - Service Principals or Managed Identities. In case of service principal the credentials are stored within the cluster and there are password rotation and other challenges which user needs to incur to accommodate this model. Managed service identities takes out this burden from the user and manages the service instances directly [[12]](https://docs.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/overview).
+Inorder for the Kubernetes cluster components to securely talk to the cloud services, it needs to authenticate with the cloud provider. In Azure Kubernetes clusters, up until now this was done using two ways - Service Principals or Managed Identities. In case of service principal the credentials are stored within the cluster and there are password rotation and other challenges which user needs to incur to accommodate this model. Managed service identities takes out this burden from the user and manages the service instances directly [[12]](https://learn.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/overview).
 
 There are two kinds of managed identities possible - one is system assigned and another is user assigned. In case of system assigned identity each vm in the Kubernetes cluster is assigned a managed identity during creation. This identity is used by various Kubernetes components needing access to Azure resources. Examples to these operations are getting/updating load balancer configuration, getting/updating vm information etc. With the system assigned managed identity, user has no control over the identity which is assigned to the underlying vm. The system automatically assigns it and this reduces the flexibility for the user.
 
@@ -264,7 +265,8 @@ With v1.12 we bring user assigned managed identity support for Kubernetes. With 
 
 To understand the internals, we will focus on a cluster created using acs-engine. This can be configured in other ways, but the basic interactions are of the same pattern.
 
-The acs-engine sets up the cluster with the required configuration. The /etc/kubernetes/azure.json file provides a way for the cluster components (eg: kube-apiserver) to gather configuration on how to access the cloud resources. In a user managed identity cluster there is a value filled with the key as `UserAssignedIdentityID`. This value is filled with the client id of the user assigned identity created by acs-engine or provided by the user, however the case may be. The code which does the authentication for Kubernetes on azure can be found here [[14]](https://github.com/kubernetes/kubernetes/blob/master/pkg/cloudprovider/providers/azure/auth/azure_auth.go). This code uses Azure adal packages to get authenticated to access various resources in the cloud. In case of user assigned identity the following API call is made to get new token:
+The acs-engine sets up the cluster with the required configuration. The /etc/kubernetes/azure.json file provides a way for the cluster components (eg: kube-apiserver) to gather configuration on how to access the cloud resources. In a user managed identity cluster there is a value filled with the key as `UserAssignedIdentityID`. This value is filled with the client id of the user assigned identity created by acs-engine or provided by the user, however the case may be. The code which does the authentication for Kubernetes on azure can be found here [[14]](
+https://github.com/kubernetes/kubernetes/blob/release-1.17/staging/src/k8s.io/legacy-cloud-providers/azure/auth/azure_auth.go). This code uses Azure adal packages to get authenticated to access various resources in the cloud. In case of user assigned identity the following API call is made to get new token:
 
 ```
 adal.NewServicePrincipalTokenFromMSIWithUserAssignedID(msiEndpoint,
@@ -272,7 +274,7 @@ env.ServiceManagementEndpoint,
 config.UserAssignedIdentityID)
 ```
 
-This calls hits either the instance metadata service or the vm extension [[12]](https://docs.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/overview) to gather the token which is then used to access various resources.
+This calls hits either the instance metadata service or the vm extension [[12]](https://learn.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/overview) to gather the token which is then used to access various resources.
 
 ## Setting up a cluster with user assigned identity
 
@@ -303,19 +305,19 @@ For azure specific discussions - please checkout the Azure SIG page at [[6]](htt
 
 For CA, please checkout the Autoscaler project here [[7]](http://www.github.com/kubernetes/autoscaler) and join the [#sig-autoscaling](https://kubernetes.slack.com/messages/sig-autoscaling) Slack for more discussions.
 
-For the acs-engine (the unmanaged variety) on Azure docs can be found here: [[9]](https://github.com/Azure/acs-engine). More details about the managed service from Azure Kubernetes Service (AKS) here [[5]](https://docs.microsoft.com/en-us/azure/aks/).
+For the acs-engine (the unmanaged variety) on Azure docs can be found here: [[9]](https://github.com/Azure/acs-engine). More details about the managed service from Azure Kubernetes Service (AKS) here [[5]](https://learn.microsoft.com/en-us/azure/aks/).
 
 ## References
 
-1) https://docs.microsoft.com/en-us/azure/virtual-machine-scale-sets/overview
+1) https://learn.microsoft.com/en-us/azure/virtual-machine-scale-sets/overview
 
 2) /docs/concepts/architecture/cloud-controller/
 
-3)  https://github.com/kubernetes/kubernetes/blob/master/pkg/cloudprovider/providers/azure/azure_vmss.go
+3) https://github.com/kubernetes/kubernetes/blob/release-1.17/staging/src/k8s.io/legacy-cloud-providers/azure/azure_vmss.go
 
 4) https://github.com/Azure/acs-engine/blob/master/docs/kubernetes/deploy.md
 
-5) https://docs.microsoft.com/en-us/azure/aks/
+5) https://learn.microsoft.com/en-us/azure/aks/
 
 6) https://github.com/kubernetes/community/tree/master/sig-azure
 
@@ -329,10 +331,10 @@ For the acs-engine (the unmanaged variety) on Azure docs can be found here: [[9]
 
 11) /docs/concepts/architecture/
 
-12) https://docs.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/overview
+12) https://learn.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/overview
 
 13) https://github.com/Azure/acs-engine/tree/master/examples/kubernetes-msi-userassigned
 
-14) https://github.com/kubernetes/kubernetes/blob/master/pkg/cloudprovider/providers/azure/auth/azure_auth.go
+14)https://github.com/kubernetes/kubernetes/blob/release-1.17/staging/src/k8s.io/legacy-cloud-providers/azure/auth/azure_auth.go
 
 15) https://github.com/Azure/acs-engine/tree/master/examples/addons/cluster-autoscaler

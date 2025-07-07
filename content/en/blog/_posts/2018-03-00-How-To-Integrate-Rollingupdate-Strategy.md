@@ -3,6 +3,8 @@ title: "How to Integrate RollingUpdate Strategy for TPR in Kubernetes"
 date: 2018-03-13
 slug: how-to-integrate-rollingupdate-strategy
 url: /blog/2018/03/How-To-Integrate-Rollingupdate-Strategy
+author: >
+  Orain Xiong (Woqutech)
 ---
 
 With Kubernetes, it's easy to manage and scale stateless applications like web apps and API services right out of the box. To date, almost all of the talks about Kubernetes has been about microservices and stateless applications.
@@ -168,8 +170,6 @@ items:
 
    resourceVersion: "415852"
 
-   selfLink: /apis/mysql.orain.com/v1/namespaces/default/mysqlclusters/clustershard-c
-
    uid: 6bb089bb-b56f-11e7-ae02-525400e717a6
 
  spec:
@@ -232,7 +232,6 @@ The upgrade is in monotonically decreasing manner:
 
 RollingUpgrade is meaningful to database administrators. It provides a more effective way to operator database.
 
-\--Orain Xiong, co-founder, Woqutech
 
 [1]: https://lh5.googleusercontent.com/4WiSkxX-XBqARVqQ0No-1tZ31op90LAUkTco3FdIO1mFScNOTVtMCgnjaO8SRUmms-6MAb46CzxlXDhLBqAAAmbx26atJnu4t1FTTALZx_CbUPqrCxjL746DW4TD42-03Ac9VB2c
 [2]: https://lh3.googleusercontent.com/sXqVqfTu6rMWn0mlHLgHHqATe_qsx1tNmMfX60HoTwyhd5HCL4A_ViFBQAZfOoVGioeXcI_XXbzVFUdq2hbKGwS0OXH6PFGqgpZshfBwrT088bz4KqeyTbHpQR2olyzE6eRo1fan

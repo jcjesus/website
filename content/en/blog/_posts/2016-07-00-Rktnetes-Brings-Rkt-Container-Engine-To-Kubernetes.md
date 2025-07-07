@@ -3,10 +3,13 @@ title: " rktnetes brings rkt container engine to Kubernetes "
 date: 2016-07-11
 slug: rktnetes-brings-rkt-container-engine-to-kubernetes
 url: /blog/2016/07/Rktnetes-Brings-Rkt-Container-Engine-To-Kubernetes
+author: >
+  Yifan Gu (CoreOS),
+  Josh Wood (CoreOS)
 ---
-_Editor’s note: this post is part of&nbsp;a [series of in-depth articles](https://kubernetes.io/blog/2016/07/five-days-of-kubernetes-1.3) on what's new in Kubernetes 1.3&nbsp;_  
+_**Editor's note:** this post is part of a [series of in-depth articles](/blog/2016/07/five-days-of-kubernetes-1-3) on what's new in Kubernetes 1.3_
 
-As part of [Kubernetes 1.3](https://kubernetes.io/blog/2016/07/kubernetes-1.3-bridging-cloud-native-and-enterprise-workloads), we’re happy to report that our work to bring interchangeable container engines to Kubernetes is bearing early fruit. What we affectionately call “rktnetes” is included in the version 1.3 Kubernetes release, and is ready for development use. rktnetes integrates support for [CoreOS rkt](https://coreos.com/rkt/) into Kubernetes as the container runtime on cluster nodes, and is now part of the mainline Kubernetes source code. Today it’s easier than ever for developers and ops pros with container portability in mind to try out running Kubernetes with a different container engine.  
+As part of [Kubernetes 1.3](https://kubernetes.io/blog/2016/07/kubernetes-1-3-bridging-cloud-native-and-enterprise-workloads/), we’re happy to report that our work to bring interchangeable container engines to Kubernetes is bearing early fruit. What we affectionately call “rktnetes” is included in the version 1.3 Kubernetes release, and is ready for development use. rktnetes integrates support for [CoreOS rkt](https://coreos.com/rkt/) into Kubernetes as the container runtime on cluster nodes, and is now part of the mainline Kubernetes source code. Today it’s easier than ever for developers and ops pros with container portability in mind to try out running Kubernetes with a different container engine.
 
 "We find CoreOS’s rkt a compelling container engine in Kubernetes because of how rkt is composed with the underlying systemd,” said Mark Petrovic, senior MTS and architect at Xoom, a PayPal service. “The rkt runtime assumes only the responsibility it needs to, then delegates to other system services where appropriate. This separation of concerns is important to us.”  
 
@@ -81,4 +84,3 @@ Recent work aims to make rktnetes cluster creation much easier, too. While not y
 We’re excited to see the experiments the wider Kubernetes and CoreOS communities devise to put rktnetes to the test, and we welcome your input – and pull requests!  
 
 
-_--Yifan Gu and Josh Wood, rktnetes Team, [CoreOS](https://coreos.com/). Twitter [@CoreOSLinux](https://twitter.com/coreoslinux)._  

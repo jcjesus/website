@@ -1,22 +1,23 @@
 ---
 title: Allouer des ressources mémoire aux conteneurs et aux pods
-content_template: templates/task
+content_type: task
 weight: 10
 ---
 
-{{% capture overview %}}
+<!-- overview -->
 
 Cette page montre comment assigner une mémoire *request* et une mémoire *limit* à un conteneur. Un conteneur est garanti d'avoir autant de mémoire qu'il le demande, mais n'est pas autorisé à consommer plus de mémoire que sa limite.
 
-{{% /capture %}}
 
-{{% capture prerequisites %}}
+
+## {{% heading "prerequisites" %}}
+
 
 {{< include "task-tutorial-prereqs.md" >}} {{< version-check >}}
 
 Chaque nœud de votre cluster doit avoir au moins 300 MiB de mémoire.
 
-Pour quelques étapes de cette page, vous devez lancer 
+Pour quelques étapes de cette page, vous devez lancer
 [metrics-server] (https://github.com/kubernetes-incubator/metrics-server)
 dans votre cluster. Si vous avez déjà metrics-server vous pouvez sauter ces étapes.
 
@@ -35,13 +36,13 @@ kubectl get apiservices
 Si l'API des métriques de ressources est disponible, la sortie inclura une référence à `metrics.k8s.io`.
 
 ```shell
-NAME      
+NAME
 v1beta1.metrics.k8s.io
 ```
 
-{{% /capture %}}
 
-{{% capture steps %}}
+
+<!-- steps -->
 
 ## Créer un namespace
 
@@ -59,7 +60,7 @@ dans le manifeste des ressources du conteneur. Pour spécifier une limite de mé
 Dans cet exercice, vous créez un pod qui possède un seul conteneur. Le conteneur dispose d'une demande de mémoire de 100 MiB et une limite de mémoire de 200 MiB. Voici le fichier de configuration
 pour le Pod :
 
-{{< codenew file="pods/resource/memory-request-limit.yaml" >}}
+{{% codenew file="pods/resource/memory-request-limit.yaml" %}}
 
 La section `args` de votre fichier de configuration fournit des arguments pour le conteneur lorsqu'il démarre.
 Les arguments `"--vm-bytes", "150M"` indiquent au conteneur d'allouer 150 MiB de mémoire.
@@ -116,13 +117,13 @@ kubectl delete pod memory-demo --namespace=mem-example
 
 ## Dépasser la limite de mémoire d'un conteneur
 
-Un conteneur peut dépasser sa demande de mémoire si le nœud dispose de la mémoire disponible. Cependant, un conteneur n'est pas autorisé à utiliser plus que sa limite de mémoire. Si un conteneur alloue plus de mémoire que sa limite, le Conteneur devient un candidat à la terminaison. Si le conteneur continue à consommer de la mémoire au-delà de sa limite, le conteneur est arrêté. 
+Un conteneur peut dépasser sa demande de mémoire si le nœud dispose de la mémoire disponible. Cependant, un conteneur n'est pas autorisé à utiliser plus que sa limite de mémoire. Si un conteneur alloue plus de mémoire que sa limite, le Conteneur devient un candidat à la terminaison. Si le conteneur continue à consommer de la mémoire au-delà de sa limite, le conteneur est arrêté.
 Si un conteneur terminé peut être redémarré, le kubelet le redémarre, comme pour tout autre type d'échec d'exécution.
 
 Dans cet exercice, vous créez un Pod qui tente d'allouer plus de mémoire que sa limite.
 Voici le fichier de configuration d'un Pod qui contient un conteneur avec une demande de mémoire de 50 MiB et une limite de mémoire de 100 MiB :
 
-{{< codenew file="pods/resource/memory-request-limit-2.yaml" >}}
+{{% codenew file="pods/resource/memory-request-limit-2.yaml" %}}
 
 Dans la section `args` du fichier de configuration, vous pouvez voir que le conteneur
 tentera d'allouer 250 MiB de mémoire, ce qui est bien au-dessus de la limite de 100 MiB.
@@ -218,14 +219,14 @@ kubectl delete pod memory-demo-2 --namespace=mem-example
 
 ## Spécifiez une demande de mémoire trop volumineuse pour vos nœuds.
 
-Les demandes de mémoire et les limites sont associées aux conteneurs, mais il est utile de réfléchir avant tout à la capacité de demande et limite mémoire des pods. 
+Les demandes de mémoire et les limites sont associées aux conteneurs, mais il est utile de réfléchir avant tout à la capacité de demande et limite mémoire des pods.
 La demande de mémoire pour le Pod est la somme des demandes de mémoire pour tous ses conteneurs. De même, la mémoire limite pour le Pod est la somme des limites de tous ses Conteneurs.
 
 L'ordonnancement des modules est basé sur les demandes. Un Pod est schedulé pour se lancer sur un Nœud uniquement si le Nœud dispose de suffisamment de mémoire disponible pour répondre à la demande de mémoire du Pod.
 
 Dans cet exercice, vous allez créer un Pod dont la demande de mémoire est si importante qu'elle dépasse la capacité de la mémoire de n'importe quel nœud de votre cluster. Voici le fichier de configuration d'un Pod qui possède un seul conteneur avec une demande de 1000 GiB de mémoire, qui dépasse probablement la capacité de tous les nœuds de votre cluster.
 
-{{< codenew file="pods/resource/memory-request-limit-3.yaml" >}}
+{{% codenew file="pods/resource/memory-request-limit-3.yaml" %}}
 
 Créez le Pod :
 
@@ -292,7 +293,7 @@ pour spécifier une valeur par défaut pour la limite de mémoire.
 En configurant les demandes de mémoire et les limites pour les conteneurs qui s'exécutent dans votre cluster.
 vous pouvez utiliser efficacement les ressources mémoire disponibles sur les noeuds de votre cluster. En gardant la demande de mémoire d'un Pod basse, vous donnez au Pod une bonne chance d'être schedulé. En ayant une limite de mémoire supérieure à la demande de mémoire, vous accomplissez deux choses :
 
-* Le Pod peut avoir des éclats d'activités où il fait usage de la mémoire qui se trouve être disponible. 
+* Le Pod peut avoir des éclats d'activités où il fait usage de la mémoire qui se trouve être disponible.
 * La quantité de mémoire qu'un Pod peut utiliser pendant un  éclat d'activité est limitée à une quantité raisonnable.
 
 ## Clean up
@@ -303,9 +304,10 @@ Supprimez votre namespace. Ceci va supprimer tous les Pods que vous avez créés
 kubectl delete namespace mem-example
 ```
 
-{{% /capture %}}
 
-{{% capture whatsnext %}}
+
+## {{% heading "whatsnext" %}}
+
 
 ### Pour les développeurs d'applications
 
@@ -329,7 +331,7 @@ kubectl delete namespace mem-example
 
 * [Configuration des quotas pour les objets API](/docs/tasks/administer-cluster/quota-api-object/)
 
-{{% /capture %}}
+
 
 
 

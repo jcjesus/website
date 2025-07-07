@@ -1,40 +1,53 @@
-<!DOCTYPE html>
-<html id="blog" lang="{{ .Language }}" class="gr__kubernetes_io fontawesome-i2svg-active fontawesome-i2svg-complete">
-	<head>
-		{{ partial "head.html" . }}
-		<link rel='stylesheet' type='text/css' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'>
-		<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
-		<link rel="stylesheet" type="text/css" href="{{ "css/blog.css" | relURL }}">
-	</head>
-	<body>
-		{{ partial "header.html" . }}
-		<section id="hero" class="light-text no-sub">
-			<h1>{{ .Title }}</h1>
-		</section>
-		<div class="container-fluid" style="padding-top: 2em">
-			<div class="row">
-				<div class="col-xs-12 col-md-9 text blog-content">
-					{{ block "main" . }}{{ end }}
-				</div>
-				<div class="col-xs-12 col-md-3 text">
-					<div class="widget-content">
-						{{ with site.Home.OutputFormats.Get "rss" -}}
-						<link rel="{{ .Rel }}" type="{{ .MediaType.Type }}" href="{{ .Permalink | safeURL }}" title="{{ site.Title }}">
-						<a class="widget-link" href="{{ .Permalink | safeURL }}"> <i class="fas fa-rss fab-icon"> </i> RSS Feed </a>
-						{{ end -}}
-						<a class="widget-link" href="https://kubernetes.io/docs/contribute/start/#write-a-blog-post"><i class="fa fa-edit fab-icon"></i> Submit a Post</a>
-						<a class="widget-link" href="https://twitter.com/kubernetesio"> <i class="fab fa-twitter-square fab-icon"> </i> @Kubernetesio</a>
-						<a class="widget-link" href="https://github.com/kubernetes/kubernetes"> <i class="fab fa-github-square fab-icon"></i> View on GitHub </a>
-						<a class="widget-link" href="http://slack.k8s.io"><i class="fab fa-slack fab-icon"> </i> #kubernetes-users </a>
-						<a class="widget-link" href="https://stackoverflow.com/questions/tagged/kubernetes"><i class="fab fa-stack-overflow fab-icon"></i> Stack Overflow</a>
-						<a class="widget-link" href="https://discuss.kubernetes.io"><i class="fab fa-discourse fab-icon"></i>Forum</a>
-						<a class="widget-link" href="https://kubernetes.io/docs/setup"><i class="fa fa-download fab-icon"></i> Download Kubernetes</a>
-					</div>
-					{{ partialCached "blog/archive.html" . }}
-				</div>
-			</div>
-		</div>
-		{{ partialCached "footer.html" . }}
-		{{ partialCached "footer-scripts.html" . }}
-	</body>
+<!doctype html>
+<html lang="{{ .Site.Language.Lang }}" class="no-js">
+  <head>
+    {{ with .Params.canonicalUrl }}
+    <link rel="canonical" href="{{ . }}">
+    {{ end }}
+    {{ partial "head.html" . }}
+    <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ with .Title }}{{ . }} | {{ end }}{{ .Site.Title }}{{ end }}</title>
+  </head>
+  <body class="td-{{ .Kind }} td-blog {{- with .Page.Params.body_class }} {{ . }}{{ end }}">
+    <header>
+      {{ partial "navbar.html" . }}
+      {{ partial "announcement.html" . }}
+      {{ block "hero" . }}
+      <section class="header-hero text-center text-white font-bold pb-4">
+        {{ if .IsSection }}<h1>{{ else }}<h2>{{ end }}
+          {{ $sectionHeading := .Site.GetPage "section" .Section }}
+          {{ with $sectionHeading }}
+            {{ .Title }}
+          {{ end }}
+        {{ if .IsSection }}</h1>{{ else }}</h2>{{ end }}
+      </section>
+      {{ end }}
+    </header>
+    <div class="container-fluid td-outer">
+      <div class="td-main">
+        <div class="row flex-xl-nowrap">
+          <div class="col-12 col-md-3 col-xl-2 td-sidebar d-print-none">
+            {{ partial "blog-sidebar.html" . }}
+          </div>
+          <main class="col-12 col-md-9 col-xl-8 pl-md-5 pr-md-4" role="main"
+              {{ if .IsPage }}data-pagefind-body data-pagefind-meta="date:{{  $.Date.Format "2006-01-02" }}"{{ end }}
+            ><!-- inside main element -->
+            {{ with .CurrentSection.OutputFormats.Get "rss" -}}
+            <a class="btn btn-lg -bg-orange td-rss-button d-none d-lg-block" href="{{ .Permalink | safeURL }}" target="_blank">
+              RSS <i class="fa-solid fa-rss ml-2 "></i>
+            </a>
+            {{ end -}}
+            {{ block "deprecation_warning" . }}
+              {{ partial "version-banner.html" . }}
+            {{ end }}
+            {{ block "main" . }}{{ end }}
+          </main>
+          <div class="d-none d-xl-block col-xl-2 td-toc d-print-none">
+            {{ partial "blog-meta-links.html" . }}
+          </div>
+        </div>
+      </div>
+    </div>
+    {{ partial "footer.html" . }}
+    {{ partial "scripts.html" . }}
+  </body>
 </html>

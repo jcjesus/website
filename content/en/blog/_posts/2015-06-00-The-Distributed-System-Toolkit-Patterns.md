@@ -3,6 +3,8 @@ title: " The Distributed System ToolKit: Patterns for Composite Containers "
 date: 2015-06-29
 slug: the-distributed-system-toolkit-patterns
 url: /blog/2015/06/The-Distributed-System-Toolkit-Patterns
+author: >
+   Brendan Burns (Google)
 ---
 Having had the privilege of presenting some ideas from Kubernetes at DockerCon 2015, I thought I would make a blog post to share some of these ideas for those of you who couldn’t be there.  
 
@@ -12,14 +14,10 @@ In many ways the switch from VMs to containers is like the switch from monolithi
 
 The benefits of thinking in terms of modular containers are enormous, in particular, modular containers provide the following:
 
--
-Speed application development, since containers can be re-used between teams and even larger communities
--
-Codify expert knowledge, since everyone collaborates on a single containerized implementation that reflects best-practices rather than a myriad of different home-grown containers with roughly the same functionality
--
-Enable agile teams, since the container boundary is a natural boundary and contract for team responsibilities
--
-Provide separation of concerns and focus on specific functionality that reduces spaghetti dependencies and un-testable components
+- Speed application development, since containers can be re-used between teams and even larger communities
+- Codify expert knowledge, since everyone collaborates on a single containerized implementation that reflects best-practices rather than a myriad of different home-grown containers with roughly the same functionality
+- Enable agile teams, since the container boundary is a natural boundary and contract for team responsibilities
+- Provide separation of concerns and focus on specific functionality that reduces spaghetti dependencies and un-testable components
 
 Building an application from modular containers means thinking about symbiotic groups of containers that cooperate to provide a service, not one container per service. &nbsp;In Kubernetes, the embodiment of this modular container service is a Pod. &nbsp;A Pod is a group of containers that share resources like file systems, kernel namespaces and an IP address. &nbsp;The Pod is the atomic unit of scheduling in a Kubernetes cluster, precisely because the symbiotic nature of the containers in the Pod require that they be co-scheduled onto the same machine, and the only way to reliably achieve this is by making container groups atomic scheduling units.  
 
@@ -30,21 +28,19 @@ When you start thinking in terms of Pods, there are naturally some general patte
 
 Sidecar containers extend and enhance the "main" container, they take existing containers and make them better. &nbsp;As an example, consider a container that runs the Nginx web server. &nbsp;Add a different container that syncs the file system with a git repository, share the file system between the containers and you have built Git push-to-deploy. &nbsp;But you’ve done it in a modular manner where the git synchronizer can be built by a different team, and can be reused across many different web servers (Apache, Python, Tomcat, etc). &nbsp;Because of this modularity, you only have to write and test your git synchronizer once and reuse it across numerous apps. And if someone else writes it, you don’t even need to do that.
 
-[![](https://3.bp.blogspot.com/-IVsNKDqS0jE/WRnPX21pxEI/AAAAAAAABJg/lAj3NIFwhPwvJYrmCdVbq1bqNq3E4AkhwCLcB/s400/Example%2B%25231-%2BSidecar%2Bcontainers%2B.png)](https://3.bp.blogspot.com/-IVsNKDqS0jE/WRnPX21pxEI/AAAAAAAABJg/lAj3NIFwhPwvJYrmCdVbq1bqNq3E4AkhwCLcB/s1600/Example%2B%25231-%2BSidecar%2Bcontainers%2B.png)
+![Sidecar Containers](/images/blog/2015-06-00-The-Distributed-System-Toolkit-Patterns/sidecar-containers.png)
 
 ## Example #2: Ambassador containers
 
 Ambassador containers proxy a local connection to the world. &nbsp;As an example, consider a Redis cluster with read-replicas and a single write master. &nbsp;You can create a Pod that groups your main application with a Redis ambassador container. &nbsp;The ambassador is a proxy is responsible for splitting reads and writes and sending them on to the appropriate servers. &nbsp;Because these two containers share a network namespace, they share an IP address and your application can open a connection on “localhost” and find the proxy without any service discovery. &nbsp;As far as your main application is concerned, it is simply connecting to a Redis server on localhost. &nbsp;This is powerful, not just because of separation of concerns and the fact that different teams can easily own the components, but also because in the development environment, you can simply skip the proxy and connect directly to a Redis server that is running on localhost.
 
-[![](https://4.bp.blogspot.com/-yEmqGZ86mNQ/WRnPYG1m3jI/AAAAAAAABJo/94DlN54LA-oTsORjEBHfHS_UQTIbNPvcgCEw/s400/Example%2B%25232-%2BAmbassador%2Bcontainers.png)](https://4.bp.blogspot.com/-yEmqGZ86mNQ/WRnPYG1m3jI/AAAAAAAABJo/94DlN54LA-oTsORjEBHfHS_UQTIbNPvcgCEw/s1600/Example%2B%25232-%2BAmbassador%2Bcontainers.png)
+![Ambassador Containers](/images/blog/2015-06-00-The-Distributed-System-Toolkit-Patterns/ambassador-containers.png)
 
 ## Example #3: Adapter containers
 
 Adapter containers standardize and normalize output. &nbsp;Consider the task of monitoring N different applications. &nbsp;Each application may be built with a different way of exporting monitoring data. (e.g. JMX, StatsD, application specific statistics) but every monitoring system expects a consistent and uniform data model for the monitoring data it collects. &nbsp;By using the adapter pattern of composite containers, you can transform the heterogeneous monitoring data from different systems into a single unified representation by creating Pods that groups the application containers with adapters that know how to do the transformation. &nbsp;Again because these Pods share namespaces and file systems, the coordination of these two containers is simple and straightforward.
 
-[![](https://4.bp.blogspot.com/-4rfSCMwvSwo/WRnPYLLQZqI/AAAAAAAABJk/c29uQgM2lSMHaUL013scJo_z4O8w38mJgCEw/s400/Example%2B%25233-%2BAdapter%2Bcontainers%2B.png)](https://4.bp.blogspot.com/-4rfSCMwvSwo/WRnPYLLQZqI/AAAAAAAABJk/c29uQgM2lSMHaUL013scJo_z4O8w38mJgCEw/s1600/Example%2B%25233-%2BAdapter%2Bcontainers%2B.png)
+![Adapter Containers](/images/blog/2015-06-00-The-Distributed-System-Toolkit-Patterns/adapter-containers.png)
 
 
-In all of these cases, we've used the container boundary as an encapsulation/abstraction boundary that allows us to build modular, reusable components that we combine to build out applications. &nbsp;This reuse enables us to more effectively share containers between different developers, reuse our code across multiple applications, and generally build more reliable, robust distributed systems more quickly. &nbsp;I hope you’ve seen how Pods and composite container patterns can enable you to build robust distributed systems more quickly, and achieve container code re-use. &nbsp;To try these patterns out yourself in your own applications. I encourage you to go check out open source Kubernetes or Google Container Engine.  
-
- - Brendan Burns, Software Engineer at Google
+In all of these cases, we've used the container boundary as an encapsulation/abstraction boundary that allows us to build modular, reusable components that we combine to build out applications. &nbsp;This reuse enables us to more effectively share containers between different developers, reuse our code across multiple applications, and generally build more reliable, robust distributed systems more quickly. &nbsp;I hope you’ve seen how Pods and composite container patterns can enable you to build robust distributed systems more quickly, and achieve container code re-use. &nbsp;To try these patterns out yourself in your own applications. I encourage you to go check out open source Kubernetes or Google Container Engine.

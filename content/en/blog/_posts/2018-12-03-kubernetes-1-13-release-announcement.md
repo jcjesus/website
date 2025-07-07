@@ -3,9 +3,10 @@ layout: blog
 title: 'Kubernetes 1.13: Simplified Cluster Management with Kubeadm, Container Storage Interface (CSI), and CoreDNS as Default DNS are Now Generally Available'
 date: 2018-12-03
 slug: kubernetes-1-13-release-announcement
+evergreen: true
+author: >
+  [Kubernetes v1.13 Release Team](https://github.com/kubernetes/sig-release/blob/master/releases/release-1.13/release_team.md)
 ---
-
-**Author**: The 1.13 [Release Team](https://github.com/kubernetes/sig-release/blob/master/releases/release-1.13/release_team.md)
 
 We’re pleased to announce the delivery of Kubernetes 1.13, our fourth and final release of 2018!
 
@@ -17,13 +18,13 @@ Let’s dive into the key features of this release:
 
 ## Simplified Kubernetes Cluster Management with kubeadm in GA
 
-Most people who have gotten hands-on with Kubernetes have at some point been hands-on with kubeadm. It's an essential tool for managing the cluster lifecycle, from creation to configuration to upgrade; and now kubeadm is officially GA. [kubeadm](/docs/reference/setup-tools/kubeadm/kubeadm/) handles the bootstrapping of production clusters on existing hardware and configuring the core Kubernetes components in a best-practice-manner to providing a secure yet easy joining flow for new nodes and supporting easy upgrades. What’s notable about this GA release are the now graduated advanced features, specifically around pluggability and configurability. The scope of kubeadm is to be a toolbox for both admins and automated, higher-level system and this release is a significant step in that direction.
+Most people who have gotten hands-on with Kubernetes have at some point been hands-on with kubeadm. It's an essential tool for managing the cluster lifecycle, from creation to configuration to upgrade; and now kubeadm is officially GA. [kubeadm](/docs/reference/setup-tools/kubeadm/) handles the bootstrapping of production clusters on existing hardware and configuring the core Kubernetes components in a best-practice-manner to providing a secure yet easy joining flow for new nodes and supporting easy upgrades. What’s notable about this GA release are the now graduated advanced features, specifically around pluggability and configurability. The scope of kubeadm is to be a toolbox for both admins and automated, higher-level system and this release is a significant step in that direction.
 
 ## Container Storage Interface (CSI) Goes GA
 
 The Container Storage Interface ([CSI](https://github.com/container-storage-interface)) is now GA after being introduced as alpha in v1.9 and beta in v1.10. With CSI, the Kubernetes volume layer becomes truly extensible. This provides an opportunity for third party storage providers to write plugins that interoperate with Kubernetes without having to touch the core code. The [specification itself](https://github.com/container-storage-interface/spec) has also reached a 1.0 status.
 
-With CSI now stable, plugin authors are developing storage plugins out of core, at their own pace. You can find a list of sample and production drivers in the [CSI Documentation](https://kubernetes-csi.github.io/docs/Drivers.html).
+With CSI now stable, plugin authors are developing storage plugins out of core, at their own pace. You can find a list of sample and production drivers in the [CSI Documentation](https://kubernetes-csi.github.io/docs/drivers.html).
 
 ## CoreDNS is Now the Default DNS Server for Kubernetes
 

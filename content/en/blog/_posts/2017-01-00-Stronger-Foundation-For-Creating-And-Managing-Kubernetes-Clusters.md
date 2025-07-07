@@ -3,9 +3,9 @@ title: " A Stronger Foundation for Creating and Managing Kubernetes Clusters "
 date: 2017-01-12
 slug: stronger-foundation-for-creating-and-managing-kubernetes-clusters
 url: /blog/2017/01/Stronger-Foundation-For-Creating-And-Managing-Kubernetes-Clusters
+author: >
+   [Lucas Käldström](https://twitter.com/kubernetesonarm) (independent)
 ---
-_Editor's note: Today’s post is by Lucas Käldström an independent Kubernetes maintainer and SIG-Cluster-Lifecycle member, sharing what the group has been building and what’s upcoming.&nbsp;_  
-
 Last time you heard from us was in September, when we announced [kubeadm](https://kubernetes.io/blog/2016/09/how-we-made-kubernetes-easy-to-install). The work on making kubeadm a first-class citizen in the Kubernetes ecosystem has continued and evolved. Some of us also met before KubeCon and had a very productive meeting where we talked about what the scopes for our SIG, kubeadm, and kops are.&nbsp;  
 
 **Continuing to Define SIG-Cluster-Lifecycle**  
@@ -27,7 +27,7 @@ Our goals for v1.6 are centered around refactoring, stabilization and security.&
 
 First and foremost, we want to get kubeadm and its composable configuration experience to beta. We will refactor kubeadm so each phase in the bootstrap process is invokable separately. We want to bring the TLS Bootstrap API, the Certificates API and the ComponentConfig API to beta, and to get kops (and other tools) using them.&nbsp;  
 
-We will also graduate the token discovery we’re using now (aka. the gcr.io/google\_containers/kube-discovery:1.0 image) to beta by adding a new controller to the controller manager: the [BootstrapSigner](https://github.com/kubernetes/kubernetes/pull/36101). Using tokens managed as Secrets, that controller will sign the contents (a kubeconfig file) of a well known ConfigMap in a new kube-public namespace. This object will be available to unauthenticated users in order to enable a secure bootstrap with a simple and short shared token.You can read the full proposal [here](https://github.com/kubernetes/community/blob/master/contributors/design-proposals/bootstrap-discovery.md).  
+We will also graduate the token discovery we’re using now (aka. the gcr.io/google\_containers/kube-discovery:1.0 image) to beta by adding a new controller to the controller manager: the [BootstrapSigner](https://github.com/kubernetes/kubernetes/pull/36101). Using tokens managed as Secrets, that controller will sign the contents (a kubeconfig file) of a well known ConfigMap in a new kube-public namespace. This object will be available to unauthenticated users in order to enable a secure bootstrap with a simple and short shared token.You can read the full proposal [here](https://github.com/kubernetes/community/blob/master/contributors/design-proposals/cluster-lifecycle/bootstrap-discovery.md).  
 
 In addition to making it possible to invoke phases separately, we will also add a new phase for bringing up the control plane in a self-hosted mode (as opposed to the current static pod technique). The self-hosted technique was developed by CoreOS in the form of [bootkube](https://github.com/kubernetes-incubator/bootkube), and will now be incorporated as an alternative into an official Kubernetes product. Thanks to CoreOS for pushing that paradigm forward! This will be done by first setting up a temporary control plane with static pods, injecting the Deployments, ConfigMaps and DaemonSets as necessary, and lastly turning down the temporary control plane. For now, etcd will still be in a static pod by default.&nbsp;  
 
@@ -100,6 +100,3 @@ In short, we're excited on the roadmap ahead in bringing a lot of these improvem
 
 Thank you for all the feedback and contributions. I hope this has given you some insight in what we’re doing and encouraged&nbsp;you to join us at our meetings to say hi!
 
-
-
-_-- [Lucas Käldström](https://twitter.com/kubernetesonarm), Independent Kubernetes maintainer and SIG-Cluster-Lifecycle member_

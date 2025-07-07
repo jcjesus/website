@@ -3,6 +3,8 @@ title: " Kubernetes on OpenStack "
 date: 2015-05-19
 slug: kubernetes-on-openstack
 url: /blog/2015/05/Kubernetes-On-Openstack
+author: >
+   Martin Buhr (independent)
 ---
 
 
@@ -19,42 +21,25 @@ The entries in the catalog include not just the ability to [start a Kubernetes c
 
 
 
--
-Apache web server
--
-Nginx web server
--
-Crate - The Distributed Database for Docker
--
-GlassFish - Java EE 7 Application Server
--
-Tomcat - An open-source web server and servlet container
--
-InfluxDB - An open-source, distributed, time series database
--
-Grafana - Metrics dashboard for InfluxDB
--
-Jenkins - An extensible open source continuous integration server
--
-MariaDB database
--
-MySql database
--
-Redis - Key-value cache and store
--
-PostgreSQL database
--
-MongoDB NoSQL database
--
-Zend Server - The Complete PHP Application Platform
+- Apache web server
+- Nginx web server
+- Crate - The Distributed Database for Docker
+- GlassFish - Java EE 7 Application Server
+- Tomcat - An open-source web server and servlet container
+- InfluxDB - An open-source, distributed, time series database
+- Grafana - Metrics dashboard for InfluxDB
+- Jenkins - An extensible open source continuous integration server
+- MariaDB database
+- MySql database
+- Redis - Key-value cache and store
+- PostgreSQL database
+- MongoDB NoSQL database
+- Zend Server - The Complete PHP Application Platform
 
 
 
-This list will grow, and is curated [here](https://github.com/openstack/murano-apps/tree/master/Docker/Kubernetes). You can examine (and contribute to) the YAML file that tells Murano how to install and start the Kubernetes cluster [here](https://github.com/openstack/murano-apps/blob/master/Docker/Kubernetes/KubernetesCluster/package/Classes/KubernetesCluster.yaml).
+This list will grow, and is curated [here](https://opendev.org/x/k8s-docker-suite-app-murano/src/branch/master/Kubernetes). You can examine (and contribute to) the YAML file that tells Murano how to install and start the Kubernetes cluster [here](https://opendev.org/x/k8s-docker-suite-app-murano/src/branch/master/Kubernetes/KubernetesCluster/package/Classes/KubernetesCluster.yaml).
 
 
 
 [The Kubernetes open source project](https://github.com/GoogleCloudPlatform/kubernetes) has continued to see fantastic community adoption and increasing momentum, with over 11,000 commits and 7,648 stars on GitHub. With supporters ranging from Red Hat and Intel to CoreOS and Box.net, it has come to represent a range of customer interests ranging from enterprise IT to cutting edge startups. We encourage you to give it a try, give us your feedback, and get involved in our growing community.
-
-
-- Martin Buhr, Product Manager, Kubernetes Open Source Project

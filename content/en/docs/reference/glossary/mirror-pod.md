@@ -1,8 +1,7 @@
 ---
 title: Mirror Pod
 id: mirror-pod
-date: 2091-02-12
-full_link: 
+date: 2019-08-06
 short_description: >
   An object in the API server that tracks a static pod on a kubelet.
 
@@ -10,7 +9,7 @@ aka:
 tags:
 - fundamental
 ---
- A {{< glossary_tooltip text="pod" term_id="pod" >}} object that a kubelet uses
+ A {{< glossary_tooltip text="pod" term_id="pod" >}} object that a {{< glossary_tooltip text="kubelet" term_id="kubelet" >}} uses
  to represent a {{< glossary_tooltip text="static pod" term_id="static-pod" >}}
 
 <!--more--> 

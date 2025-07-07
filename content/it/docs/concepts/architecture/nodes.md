@@ -1,10 +1,11 @@
 ---
+draft: True
 title: Nodi
-content_template: templates/concept
+content_type: concept
 weight: 10
 ---
 
-{{% capture overview %}}
+<!-- overview -->
 
 Un nodo è una macchina worker in Kubernetes, precedentemente noto come `minion`. Un nodo
 può essere una VM o una macchina fisica, a seconda del cluster. Ogni nodo contiene
@@ -13,10 +14,10 @@ componenti. I servizi su un nodo includono il [container runtime](/docs/concepts
 [The Kubernetes Node](https://git.k8s.io/community/contributors/design-proposals/architecture/architecture.md#the-kubernetes-node) sezione in
 documento di progettazione dell'architettura per maggiori dettagli.
 
-{{% /capture %}}
 
 
-{{% capture body %}}
+
+<!-- body -->
 
 ## Node Status
 
@@ -40,13 +41,13 @@ L'utilizzo di questi campi varia a seconda del provider cloud o della configuraz
 
 ### Condition
 
-l campo `conditions` descrive lo stato di tutti i nodi` Running`.
+l campo `conditions` descrive lo stato di tutti i nodi `Running`.
 
 
 | Condizione del nodo | Descrizione |
 | ---------------- | ------------- |
 | `OutOfDisk` | `True` se lo spazio disponibile sul nodo non è sufficiente per aggiungere nuovi pod, altrimenti` False` |
-| `Pronto` | `True` se il nodo è integro e pronto ad accettare i pod,` False` se il nodo non è integro e non accetta i pod e `Sconosciuto` se il controller del nodo non è stato ascoltato dal nodo nell'ultimo` nodo-monitor -grace-periodo` (il valore predefinito è 40 secondi) |
+| `Pronto` | `True` se il nodo è integro e pronto ad accettare i pod, `False` se il nodo non è integro e non accetta i pod e `Sconosciuto` se il controller del nodo non è stato ascoltato dal nodo nell'ultimo` nodo-monitor -grace-periodo` (il valore predefinito è 40 secondi) |
 | `MemoryPressure` | `Vero` se la pressione esiste sulla memoria del nodo, ovvero se la memoria del nodo è bassa; altrimenti `False` |
     | `PIDPressure` | `True` se la pressione esiste sui processi, ovvero se ci sono troppi processi sul nodo; altrimenti `False` |
 | `DiskPressure` | `True` se esiste una pressione sulla dimensione del disco, ovvero se la capacità del disco è bassa; altrimenti `False` |
@@ -63,12 +64,12 @@ La condizione del nodo è rappresentata come un oggetto JSON. Ad esempio, la seg
 ]
 ```
 
-Se lo stato della condizione Ready rimane `Unknown` o` False` per un tempo superiore a `pod-eviction-timeout`, viene passato un argomento al [gestore-kube-controller](/docs/admin/kube-controller-manager/) e tutti i pod sul nodo sono programmati per la cancellazione dal controller del nodo. La durata predefinita del timeout di sfratto è di ** cinque minuti **. In alcuni casi, quando il nodo non è raggiungibile, l'apiserver non è in grado di comunicare con kubelet sul nodo. La decisione di eliminare i pod non può essere comunicata al kubelet fino a quando non viene ristabilita la comunicazione con l'apiserver. Nel frattempo, i pod che sono programmati per la cancellazione possono continuare a funzionare sul nodo partizionato.
+Se lo stato della condizione Ready rimane `Unknown` o `False` per un tempo superiore a `pod-eviction-timeout`, viene passato un argomento al [gestore-kube-controller](/docs/admin/kube-controller-manager/) e tutti i pod sul nodo sono programmati per la cancellazione dal controller del nodo. La durata predefinita del timeout di sfratto è di ** cinque minuti **. In alcuni casi, quando il nodo non è raggiungibile, l'apiserver non è in grado di comunicare con kubelet sul nodo. La decisione di eliminare i pod non può essere comunicata al kubelet fino a quando non viene ristabilita la comunicazione con l'apiserver. Nel frattempo, i pod che sono programmati per la cancellazione possono continuare a funzionare sul nodo partizionato.
 
 Nelle versioni di Kubernetes precedenti alla 1.5, il controllore del nodo [forzerebbe la cancellazione](/docs/concepts/workloads/pods/pod/#force-deletion-of-pods)
 questi pod non raggiungibili dall'apiserver. Tuttavia, in 1.5 e versioni successive, il controller del nodo non impone l'eliminazione dei pod finché non lo è
 confermato che hanno smesso di funzionare nel cluster. Puoi vedere i pod che potrebbero essere in esecuzione su un nodo irraggiungibile
-lo stato `Terminating` o` Unknown`. Nei casi in cui Kubernetes non può dedurre dall'infrastruttura sottostante se ha un nodo
+lo stato `Terminating` o `Unknown`. Nei casi in cui Kubernetes non può dedurre dall'infrastruttura sottostante se ha un nodo
 lasciato permanentemente un cluster, potrebbe essere necessario che l'amministratore del cluster elimini manualmente l'oggetto nodo. Cancellare l'oggetto nodo da
 Kubernetes fa sì che tutti gli oggetti Pod in esecuzione sul nodo vengano eliminati dal server apis e libera i loro nomi.
 
@@ -97,7 +98,7 @@ numero di pod che possono essere programmati sul nodo.
 
 Informazioni generali sul nodo, come la versione del kernel, la versione di Kubernetes
 (versione kubelet e kube-proxy), versione Docker (se utilizzata), nome del sistema operativo.
-Le informazioni sono raccolte da Kubelet dal nodo. 
+Le informazioni sono raccolte da Kubelet dal nodo.
 
 ## Management
 
@@ -155,13 +156,14 @@ Condizione Notata quando un nodo diventa irraggiungibile (ad esempio, il control
 ricevere heartbeat per qualche motivo, ad es. a causa del fatto che il nodo si trova in basso), e poi in seguito sfratto
 tutti i pod dal nodo (usando una terminazione elegante) se il nodo continua
 essere irraggiungibile. (I timeout predefiniti sono 40 secondi per iniziare la segnalazione
-ConditionUnknown e 5m dopo di ciò per iniziare a sfrattare i pod.) Il controller del nodo
-controlla lo stato di ogni nodo ogni `--node-monitor-period` secondi.
+ConditionUnknown e 5m dopo di ciò per iniziare a sfrattare i pod.) 
+
+Il controller del nodo controlla lo stato di ogni nodo ogni `--node-monitor-period` secondi.
 
 Nelle versioni di Kubernetes precedenti alla 1.13, NodeStatus è l'heartbeat di
 nodo. A partire da Kubernetes 1.13, la funzionalità di lease del nodo viene introdotta come un
 funzione alfa (porta caratteristica `NodeLease`,
-[KEP-0009](https://github.com/kubernetes/community/blob/master/keps/sig-node/0009-node-heartbeat.md)).
+[KEP-0009](https://github.com/kubernetes/enhancements/blob/master/keps/sig-node/0009-node-heartbeat.md)).
 Quando la funzione di lease del nodo è abilitata, ogni nodo ha un oggetto `Lease` associato in
 spazio dei nomi `kube-node-lease` che viene rinnovato periodicamente dal nodo ed entrambi
 NodeStatus e lease del nodo vengono considerati heartbeat dal nodo. Locazioni di nodi
@@ -190,8 +192,9 @@ lo stesso tempo. Se la frazione di nodi malsani è almeno
 se il cluster è piccolo (cioè ha meno o uguale a
 `--large-cluster-size-threshold` nodes - default 50) quindi gli sfratti sono
 fermato, altrimenti il ​​tasso di sfratto è ridotto a
-`--secondary-node-eviction-rate` (default 0.01) al secondo. La ragione per cui
-le politiche sono implementate per zona di disponibilità è perché una zona di disponibilità
+`--secondary-node-eviction-rate` (default 0.01) al secondo. 
+
+La ragione per cui le politiche sono implementate per zona di disponibilità è perché una zona di disponibilità
 potrebbe divenire partizionato dal master mentre gli altri rimangono connessi. Se
 il tuo cluster non si estende su più zone di disponibilità del provider cloud, quindi
 c'è solo una zona di disponibilità (l'intero cluster).
@@ -211,7 +214,7 @@ NodeController è responsabile per l'aggiunta di taints corrispondenti ai proble
 nodo irraggiungibile o non pronto. Vedi [questa documentazione](/docs/concepts/configuration/taint-and-toleration/)
 per i dettagli su `NoExecute` taints e la funzione alpha.
 
-partire dalla versione 1.8, il controller del nodo può essere reso responsabile della creazione di taints che rappresentano le condizioni del nodo. 
+partire dalla versione 1.8, il controller del nodo può essere reso responsabile della creazione di taints che rappresentano le condizioni del nodo.
 Questa è una caratteristica alfa della versione 1.8.
 
 ### Self-Registration of Nodes
@@ -224,12 +227,12 @@ Per l'autoregistrazione, il kubelet viene avviato con le seguenti opzioni:
   - `--kubeconfig` - Percorso delle credenziali per autenticarsi sull'apiserver.
   - `--cloud-provider` - Come parlare con un provider cloud per leggere i metadati su se stesso.
   - `--register-node` - Si registra automaticamente con il server API.
-  - `--register-with-taints` - Registra il nodo con la lista data di taints (separati da virgola` <chiave> = <valore>: <effetto> `). No-op se `register-node` è falso.
+  - `--register-with-taints` - Registra il nodo con la lista data di taints (separati da virgola `<chiave> = <valore>: <effetto>`). No-op se `register-node` è falso.
   - `--node-ip` - Indirizzo IP del nodo.
   - `--node-labels` - Etichette da aggiungere quando si registra il nodo nel cluster (vedere le restrizioni dell'etichetta applicate dal [plugin di accesso NodeRestriction](/docs/reference/access-authn-authz/admission-controller/#noderestriction) in 1.13+).
   - `--node-status-update-frequency` - Specifica la frequenza con cui kubelet invia lo stato del nodo al master
 
-Quando [Node authorization mode](/docs/reference/access-authn-authz/node/) e 
+Quando [Node authorization mode](/docs/reference/access-authn-authz/node/) e
 [NodeRestriction admission plugin](/docs/reference/access-authn-authz/admission-controllers/#noderestriction) sono abilitati,
 kubelets è autorizzato solo a creare / modificare la propria risorsa nodo.
 
@@ -282,4 +285,4 @@ Il nodo è una risorsa di livello superiore nell'API REST di Kubernetes. Maggior
 L'oggetto API può essere trovato a:
 [Node API object](/docs/reference/generated/kubernetes-api/{{< param "version" >}}/#node-v1-core).
 
-{{% /capture %}}
+
