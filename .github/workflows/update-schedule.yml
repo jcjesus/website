@@ -9,7 +9,7 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
-    if: github.repository == 'kubernetes/website'
+    if: ${{ vars.CI_ENABLED == 'true' && (github.repository == 'kubernetes/website') }}
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
