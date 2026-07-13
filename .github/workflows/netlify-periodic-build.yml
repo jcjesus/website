@@ -7,6 +7,7 @@ on:
 permissions: {} # none
 jobs:
   build:
+    if: ${{ vars.CI_ENABLED == 'true' }}
     runs-on: ubuntu-latest
     steps:
     - name: Trigger build on Netlify
